@@ -358,14 +358,14 @@ public class MethodGet {
      */
     public boolean isVirtualPath(String path) throws IOException {
         /* Abre o arquivo de configuração*/
-        BufferedReader br = new BufferedReader(new FileReader("/html/config.xandao"));
+        BufferedReader br = new BufferedReader(new FileReader("/html/config.xml"));
         List <String> virtualPath = new ArrayList<String>();
         String line;
         
         /* Percorre o conteúdo verificando se nas linhas contém o virtual path */
         while ((line = br.readLine()) != null) {
-            if(line.contains("virtualpath")){
-                virtualPath.add(line.substring(line.indexOf(":") + 1, line.length()));
+            if(line.contains("<virtualpath>") && line.contains("</virtualpath>")){
+                virtualPath.add(line.substring(13, (line.length() - 14)));
             }
         }
         
