@@ -151,10 +151,14 @@ public class ProcessRequest implements Runnable {
      * e chama o método prepareToRun() que irá processar o que lhe foi enviado.
      */
     public void run() {
+        FileHtml f = new FileHtml();
         try {
             /* Recebe o que foi enviado pelo cliente */
             input = s.getInputStream();
             output = s.getOutputStream();
+            
+            /* Vai atualizando o HTML com as informações do Admin */
+            f.generateInfoAdmin();
             
             /* Processar o que foi enviado pelo cliente */
             prepareToRun(input);

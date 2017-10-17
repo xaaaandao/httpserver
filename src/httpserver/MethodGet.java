@@ -429,7 +429,10 @@ public class MethodGet {
         }
         
         /* Depois de achado adicionamos na lista de arquivos que forem requiridos */
-        new FileHtml().setFilesRequired(newPath, nameDirectory, buffer);
+        if(newPath.contains("infoAdmin.html") == false){
+            System.out.println("**"+newPath);
+            new FileHtml().setFilesRequired(newPath, nameDirectory, buffer);
+        }
         return newPath;
     }
 

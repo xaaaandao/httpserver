@@ -19,7 +19,7 @@ public class SocketServer extends Thread {
         System.out.println("Server is Running  ");
         
         /* Apaga o arquivo directory.html e admin.html, caso alguém tente acessar de primeira não terá */
-        Process p = Runtime.getRuntime().exec(new String[]{"bash","-c", "rm /html/directory.html && rm /html/admin.html"});
+        Process p = Runtime.getRuntime().exec(new String[]{"bash","-c", "rm /html/directory.html && rm /html/admin.html && && rm /html/infoAdmin.html"});
         
         /* Porta 5555 do servidor */
         ServerSocket mysocket = new ServerSocket(5555);

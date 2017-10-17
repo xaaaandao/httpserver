@@ -121,28 +121,12 @@ public class FileHtml {
         return String.format("%d minutos %d segundos", TimeUnit.MILLISECONDS.toMinutes(time), TimeUnit.MILLISECONDS.toSeconds(time) -    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time)));
     }
     
-    /**
-     * O método generateadminHtml() gera um arquivo HTML que contém as seguintes 
-     * informações a hora e data que ele está ligado, a quantidade minutos e segundos
-     * em que ele está ligado, as últimas requisições solicitadas pelo cliente, 
-     * quando for solicitado um diretório mostra também o diretório que foi solicitado.
-     * @return content String com o conteúdo presente no arquivo HTML.
-     */
-    public String generateAdminHtml(){
-        String content = "<!DOCTYPE html>\n" +
-                        "<html>\n" +
-                            "<head>\n" +
-                                    "<title> Information Web Server </title> \n" +
-                            "</head> \n" +
-                            "<body> \n" +
-                                "<h1 align=\"center\"> Information Web Server </h1>\n" +
-                                "<hr>\n" +
-                            "<p> O servidor está no ar desde: " + startDateHour + " (" + executionTime() +" ligado).</p>\n" +
+    public void generateInfoAdmin(){
+        String content = "<p> O servidor está no ar desde: " + startDateHour + " (" + executionTime() +" ligado).</p>\n" +
                             "<p> Número de requisições atendidas: " + Integer.toString(filesRequired.size()) +"</p>" +
                             "<p> Últimas requisições:  </p> \n" +
-                            "<ul>\n";
+                        "<ul>\n";
         
-        /* Imprime as últimas solicitações */
         for(int i = filesRequired.size() - 1; i >= 0; i--){
             String location = filesRequired.get(i).getPage();
             location = location.replace("/html", "");
@@ -154,6 +138,56 @@ public class FileHtml {
         }
         
        content = content + "</ul>";
+        
+        try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/infoAdmin.html"))) {
+            /* Preenchendo o arquivo HTML do virtual path */
+            f.write(content);
+            f.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    /**
+     * O método generateadminHtml() gera um arquivo HTML que contém as seguintes 
+     * informações a hora e data que ele está ligado, a quantidade minutos e segundos
+     * em que ele está ligado, as últimas requisições solicitadas pelo cliente, 
+     * quando for solicitado um diretório mostra também o diretório que foi solicitado.
+     * @return content String com o conteúdo presente no arquivo HTML.
+     */
+    public String generateAdminHtml(){
+        String content = "<!DOCTYPE html>\n" +
+                            "<html>\n" +
+                                "<head>\n" +
+                                    "<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.3.0/jquery.min.js\"></script>\n" +
+                                    "<script>\n" +
+                                        "setInterval(function(){\n" +
+                                            "$('#conteudo').load('infoAdmin.html');\n" +
+                                        "}, 100);\n" +
+                                    "</script>\n" +
+                                    "<title> Information Web Server </title>\n" +
+                                "</head>\n" +
+                                "<body>\n" +
+                                    "<h1 align=\"center\"> Information Web Server </h1>\n" +
+                                    "<hr> </hr>\n" +
+                                    "<div id=\"conteudo\"></div>  \n" +
+                                "</body>\n" +
+                            "</html>" + 
+                        "</>";
+        
+        /* Imprime as últimas solicitações */
+        /*for(int i = filesRequired.size() - 1; i >= 0; i--){
+            String location = filesRequired.get(i).getPage();
+            location = location.replace("/html", "");
+            if(filesRequired.get(i).getNameDirectory().equalsIgnoreCase("null")){
+                content = content + "<li> <a href=\"" + location +"\">" + filesRequired.get(i).getPage() + "</a> </li>\n";
+            } else {
+                content = content + "<li> <a href=\"" + location +"\">" + filesRequired.get(i).getPage()+ "</a>  <ul> <li>" + filesRequired.get(i).getNameDirectory() + "</li> </ul> </li>\n";
+            }
+        }
+        
+       content = content + "</ul>";*/
        return content;
     }
     
@@ -163,7 +197,7 @@ public class FileHtml {
      * @param path String com o nome do arquivo idêntico nome do virtual path.
      */
     public void generateVirtualHtml(String path){
-         try (BufferedWriter f = new BufferedWriter(new FileWriter(path))) {
+        try (BufferedWriter f = new BufferedWriter(new FileWriter(path))) {
             /* Preenchendo o arquivo HTML do virtual path */
             f.write(generateAdminHtml());
             f.close();
