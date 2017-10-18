@@ -6,7 +6,8 @@
 3 - Para executar abra o navegador e digite localhost:5555;
 3.1 - O usuário é admin e a senha admin, que é utilizado para virtual path e algum diretório;
 3.2 - Para acessar um arquivo localhost:5555/index.html.
-4 - Os arquivos do HTML está em uma pasta www.
+4 - Os arquivos utilizados no servidor está em uma pasta www. 
+5 - Para que funcione copie o conteúdo total da pasta www em uma pasta /html.
 ********************************************************************************************************
 						OBSERVAÇÃO
 ********************************************************************************************************
