@@ -121,6 +121,11 @@ public class FileHtml {
         return String.format("%d minutos %d segundos", TimeUnit.MILLISECONDS.toMinutes(time), TimeUnit.MILLISECONDS.toSeconds(time) -    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time)));
     }
     
+    /**
+     * O método generateInfoHtml() gera um arquivo HTML que contém as informações
+     * desde que hora está ligado (quantos minutos e horas), quantas requisições
+     * e que páginas foram solicitadas.
+     */
     public void generateInfoAdmin(){
         String content = "<p> O servidor está no ar desde: " + startDateHour + " (" + executionTime() +" ligado).</p>\n" +
                             "<p> Número de requisições atendidas: " + Integer.toString(filesRequired.size()) +"</p>" +
@@ -150,10 +155,9 @@ public class FileHtml {
     
     
     /**
-     * O método generateadminHtml() gera um arquivo HTML que contém as seguintes 
-     * informações a hora e data que ele está ligado, a quantidade minutos e segundos
-     * em que ele está ligado, as últimas requisições solicitadas pelo cliente, 
-     * quando for solicitado um diretório mostra também o diretório que foi solicitado.
+     * O método generateAdminHtml() gera um arquivo HTML que contém somente
+     * um título no body e no head, além disso, contém uma pequena parte em json 
+     * que irá recarregar em um determinado tempo uma página HTML.
      * @return content String com o conteúdo presente no arquivo HTML.
      */
     public String generateAdminHtml(){
@@ -175,20 +179,7 @@ public class FileHtml {
                                 "</body>\n" +
                             "</html>" + 
                         "</>";
-        
-        /* Imprime as últimas solicitações */
-        /*for(int i = filesRequired.size() - 1; i >= 0; i--){
-            String location = filesRequired.get(i).getPage();
-            location = location.replace("/html", "");
-            if(filesRequired.get(i).getNameDirectory().equalsIgnoreCase("null")){
-                content = content + "<li> <a href=\"" + location +"\">" + filesRequired.get(i).getPage() + "</a> </li>\n";
-            } else {
-                content = content + "<li> <a href=\"" + location +"\">" + filesRequired.get(i).getPage()+ "</a>  <ul> <li>" + filesRequired.get(i).getNameDirectory() + "</li> </ul> </li>\n";
-            }
-        }
-        
-       content = content + "</ul>";*/
-       return content;
+        return content;
     }
     
     /**
