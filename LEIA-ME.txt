@@ -1,0 +1,16 @@
+********************************************************************************************************
+					Alexandre Yuji Kajihara - 1510762
+********************************************************************************************************
+1 - Abra o netbeans;
+2 - Abra o projeto aonde foi extraído;
+3 - Para executar abra o navegador e digite localhost:5555;
+3.1 - O usuário é admin e a senha admin, que é utilizado para virtual path e algum diretório;
+3.2 - Para acessar um arquivo localhost:5555/index.html.
+********************************************************************************************************
+						OBSERVAÇÃO
+********************************************************************************************************
+- Falta arrumar a leitura do arquivo lendo bit a bit.
+- Arrumar o cookie para pegar o valor da requisição e incrementar, retornar na request ao cliente.
+- Usar a query para ordenar os arquivos dos diretórios.
+********************************************************************************************************
+
