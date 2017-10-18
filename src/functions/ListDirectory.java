@@ -50,6 +50,51 @@ public class ListDirectory {
         return false;
     }
     
+    public boolean generateDirectorySortName(String directory, List<Arquivo> listFiles) throws IOException {
+        try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortName.html"))) {
+            new FileHtml().sortNameFile(listFiles);
+            /* Escrevemos no arquivo */
+            f.write(new FileHtml().headerDirectoryHtml(directory));
+            f.write(new FileHtml().filesHtml(directory, listFiles));
+            f.write(new FileHtml().footerDirectoryHtml());
+            f.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public boolean generateDirectorySortLastModified(String directory, List<Arquivo> listFiles) throws IOException {
+        try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortLastModified.html"))) {
+            new FileHtml().sortLastModifiedFile(listFiles);
+            /* Escrevemos no arquivo */
+            f.write(new FileHtml().headerDirectoryHtml(directory));
+            f.write(new FileHtml().filesHtml(directory, listFiles));
+            f.write(new FileHtml().footerDirectoryHtml());
+            f.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public boolean generateDirectorySortSize(String directory, List<Arquivo> listFiles) throws IOException {
+        try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortSize.html"))) {
+            new FileHtml().sortSizeFile(listFiles);
+            /* Escrevemos no arquivo */
+            f.write(new FileHtml().headerDirectoryHtml(directory));
+            f.write(new FileHtml().filesHtml(directory, listFiles));
+            f.write(new FileHtml().footerDirectoryHtml());
+            f.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
     /**
      * O método filesDirectory() armazena todos os arquivos e diretórios em uma lista
      * com o nome, o tamanho e a última modificação.
@@ -68,7 +113,7 @@ public class ListDirectory {
             Arquivo a = new Arquivo();
             String lastModified = directory + "/";
             a.setName(allOfFiles[i].getName());
-            a.setSize(String.valueOf(allOfFiles[i].length()) + " bytes");
+            a.setSize(String.valueOf(allOfFiles[i].length()));
             lastModified = lastModified + allOfFiles[i].getName();
             a.setLastModified(new MethodGet().headerLastModified(new File(lastModified)));
             listFiles.add(a);
@@ -76,6 +121,9 @@ public class ListDirectory {
 
         /* Verificamos se o arquivo com o conteúdo dos diretórios foi criado */
         if(generateDirectoryHtml(directory, listFiles)){
+            generateDirectorySortName(directory, listFiles);
+            generateDirectorySortLastModified(directory, listFiles);
+            generateDirectorySortSize(directory, listFiles);
             return true;
         }
         return false;

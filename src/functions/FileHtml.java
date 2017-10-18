@@ -32,20 +32,20 @@ public class FileHtml {
                 "table{ width: 50%; }\n" +
                 "td, td{ text-align: center; padding: 8px; }\n" +
                 "</style>\n" +
-                "<title> Index of " + directory + "</title>\n" +
+                "<title> Index of " + directory + " </title>\n" +
                 "</head>\n" +
                 "<body>\n" +
                 "<h1> Index of " + directory + "</h1>\n" +
                 "<table>\n" +
                 "<tbody>\n" +
                 "<tr>\n" +
-                "<th> Name </th>\n" +
-                "<th> Last modified </th>\n" +
-                "<th> Size </th>\n" +
+                "<th> <a href='/directorySortName.html' style=\"text-decoration: none; color : #000000;\"> Name </a> </th>\n" +
+                "<th> <a href='/directorySortLastModified.html' style=\"text-decoration: none; color : #000000;\"> Last modified </a> </th>\n" +
+                "<th> <a href='/directorySortSize.html' style=\"text-decoration: none; color : #000000;\"> Size </a> </th>\n" +
                 "</tr>\n" +
                 "<hr>\n";
     }
-
+    
     /**
      * O método footerDirectoryHtml() fecha as TAG que foram abertas no
      * método headerDirectoryHtml() que compõe o arquivo HTML que 
@@ -79,17 +79,52 @@ public class FileHtml {
         
         /* Imprime os arquivos e diretórios no arquivo HTML presentes naquele determinado diretório */
         for(Arquivo a : listFiles) {
-            if(!a.getName().equalsIgnoreCase("directory.html") && !a.getName().contains("error40") && !a.getName().equalsIgnoreCase("config.xandao") && !a.getName().equalsIgnoreCase("admin.html") && !a.getName().equalsIgnoreCase("config.xml")&& !a.getName().equalsIgnoreCase("infoAdmin.html")){
+            if(!a.getName().contains("directory") && !a.getName().contains("error40") && !a.getName().equalsIgnoreCase("config.xandao") && !a.getName().equalsIgnoreCase("admin.html") && !a.getName().equalsIgnoreCase("config.xml")&& !a.getName().equalsIgnoreCase("infoAdmin.html")){
                 String redirect = directory + '/' + a.getName();
                 if(redirect.contains("/html")){
                     redirect = redirect.replace("/html", "");
                 }
                 content = content + "<tr>\n" + "<td> <a href='" + redirect + "'>" + a.getName() + "</a> </td>\n";
                 content = content + "<td> <a>" + a.getLastModified() + "</a> </td>\n";
-                content = content + "<td> <a>" + a.getSize() + "</a> </td>\n" + "</tr>\n";
+                content = content + "<td> <a>" + a.getSize() + " bytes </a> </td>\n" + "</tr>\n";
             }
         }
         return content;
+    }
+    
+    public void sortNameFile(List<Arquivo> listFiles){
+        Collections.sort(listFiles, new Comparator<Arquivo>() {
+            @Override
+            public int compare(Arquivo o1, Arquivo o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });        
+    }
+    
+    public void sortLastModifiedFile(List<Arquivo> listFiles){
+        Collections.sort(listFiles, new Comparator<Arquivo>() {
+            @Override
+            public int compare(Arquivo o1, Arquivo o2) {
+                return o1.getLastModified().compareTo(o2.getLastModified());
+            }
+        });  
+        /*for(int i = 0; i < listFiles.size(); i++){
+            Arquivo a = listFiles.get(i);
+            System.out.println(a.getLastModified());
+        }*/
+    }
+    
+    public void sortSizeFile(List<Arquivo> listFiles){
+        Collections.sort(listFiles, new Comparator<Arquivo>() {
+            @Override
+            public int compare(Arquivo o1, Arquivo o2) {
+                return Integer.compare(Integer.parseInt(o1.getSize()), Integer.parseInt(o2.getSize()));
+            }
+        });  
+        /*for(int i = 0; i < listFiles.size(); i++){
+            Arquivo a = listFiles.get(i);
+            System.out.println(a.getSize());
+        }*/
     }
     
     /**
@@ -195,6 +230,23 @@ public class FileHtml {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public String getDirectory(String path) throws FileNotFoundException, IOException{
+        File file = new File(path);
+        String[] directory = null;
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if(line.contains("<title>")){
+                    directory = line.split(" ");
+                    System.out.println("dir:"+directory[3]);
+                    break;
+                }
+               // process the line.
+            }
+        }
+        return directory[3];
     }
 
     /**

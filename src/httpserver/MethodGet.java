@@ -345,6 +345,10 @@ public class MethodGet {
         /* Depois de achado adicionamos na lista de arquivos que forem requiridos */
         if(newPath.contains("infoAdmin.html") == false){
             System.out.println("**"+newPath);
+            if(newPath.contains("directorySort")){
+                nameDirectory = new FileHtml().getDirectory(newPath);
+            }
+            System.out.println("***"+nameDirectory);
             new FileHtml().setFilesRequired(newPath, nameDirectory, buffer);
         }
         return newPath;
