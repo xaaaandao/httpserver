@@ -337,4 +337,8 @@ public class FileHtml {
         return filesRequired.get(filesRequired.size() - 1).getBuffer();
     }
     
+    public int getSizeList(){
+        return filesRequired.size();
+    }
+    
 }

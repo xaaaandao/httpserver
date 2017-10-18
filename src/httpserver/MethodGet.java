@@ -180,7 +180,7 @@ public class MethodGet {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         return sdf.format(new Date(f.lastModified()));
-    }
+    }   
 
     /**
      * O método responseHeader() recebe o arquivo que irá ser retornado para o cliente
@@ -189,10 +189,11 @@ public class MethodGet {
      * utilizamos para pegar a sua extensão, com todas essas informações montamos o cabeçalho.
      * @param f Arquivo com conteúdo HTML onde extraímos o tamanho e sua última modificação.
      * @param nameFile String com o nome do arquivo onde será extraído sua extensão.
+     * @param buffer
      * @throws java.io.IOException
      * @return header String com o cabeçalho montado.
      */
-    public String responseHeader(File f, String nameFile) throws IOException {
+    public String responseHeader(File f, String nameFile, BufferedReader buffer) throws IOException {
         /* Pega a extensão do nome do arquivo */
         String extension = nameFile.substring(nameFile.lastIndexOf(".") + 1, nameFile.length());
         
@@ -201,11 +202,13 @@ public class MethodGet {
                 + "Date: " + headerDate() + "\r\n"
                 + "Last-Modified: " + headerLastModified(f) + "\r\n"
                 + "Content-Length: " + f.length() + "\r\n"
-                + "Set-Cookie: cookieName=cookieValue;\r\n"
+                + "Set-Cookie: cookieName="+ String.valueOf(new FileHtml().getFilesRequiredSize()) +";\r\n"
                 + "Content-Type: " + getContentType(extension) + "\r\n\r\n";
         return header;
     }
 
+    
+    
     /**
      * O método responseBody() recebe em String o conteúdo do cabeçalho e o arquivo que
      * será anexado a esse cabeçalho, basicamente lê o arquivo e acrescentar no final
@@ -344,11 +347,11 @@ public class MethodGet {
         
         /* Depois de achado adicionamos na lista de arquivos que forem requiridos */
         if(newPath.contains("infoAdmin.html") == false){
-            System.out.println("**"+newPath);
+            //System.out.println("**"+newPath);
             if(newPath.contains("directorySort")){
                 nameDirectory = new FileHtml().getDirectory(newPath);
             }
-            System.out.println("***"+nameDirectory);
+            //System.out.println("***"+nameDirectory);
             new FileHtml().setFilesRequired(newPath, nameDirectory, buffer);
         }
         return newPath;
@@ -388,7 +391,7 @@ public class MethodGet {
         /* Caso não seja nenhum dos dois é uma página */
         if (errorAuthentication == false) {
             File fileHtml = new File(newPath);
-            String text = responseHeader(fileHtml, newPath);
+            String text = responseHeader(fileHtml, newPath, buffer);
             responseBody(text, fileHtml);
         }
         
