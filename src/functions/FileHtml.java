@@ -279,7 +279,7 @@ public class FileHtml {
             while ((line = br.readLine()) != null) {
                 if(line.contains("<title>")){
                     directory = line.split(" ");
-                    System.out.println("dir:"+directory[3]);
+                    //System.out.println("dir:"+directory[3]);
                     break;
                 }
                // process the line.

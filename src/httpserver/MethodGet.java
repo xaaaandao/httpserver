@@ -222,21 +222,19 @@ public class MethodGet {
         
         /* Texto contendo o cabeçalho */
         content = content + "\r\n\r\n";
-        FileInputStream fileHtml = new FileInputStream(f);
-        int value;
         
-        /* Lendo o arquivo e acrescentando o mesmo no final do cabeçalho*/
-        while ((value = fileHtml.read()) != -1) {
-            content += (char) value;
+        String conteudo = " ";
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
+        while ((conteudo = bufferedReader.readLine()) != null) {
+            content = content + conteudo;
         }
-        fileHtml.close();
+        
         content = content + "\r\n\r\n";
-        byte[] bytesText = content.getBytes("ISO-8859-1");
         
         /* Enviando para o cliente */
-        out.write(bytesText);
-        out.flush();
-        out.close();
+        out.write(content.getBytes());
+        //out.flush();
+        //out.close();
     }
     
     /**
