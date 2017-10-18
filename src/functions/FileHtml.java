@@ -111,6 +111,11 @@ public class FileHtml {
         return content;
     }
     
+    /**
+     * O método sortNameFile() ordena a lista dos arquivos do diretório
+     * baseado no nomes dos arquivos.
+     * @param listFiles Lista com o nome de todos os arquivos presente naquele diretório.
+     */
     public void sortNameFile(List<Arquivo> listFiles){
         Collections.sort(listFiles, new Comparator<Arquivo>() {
             @Override
@@ -120,6 +125,11 @@ public class FileHtml {
         });        
     }
     
+    /**
+     * O método sortLastModifiedFile() ordena a lista dos arquivos do diretório
+     * baseado na última modificação.
+     * @param listFiles Lista com o nome de todos os arquivos presente naquele diretório.
+     */
     public void sortLastModifiedFile(List<Arquivo> listFiles){
         Collections.sort(listFiles, new Comparator<Arquivo>() {
             @Override
@@ -130,15 +140,11 @@ public class FileHtml {
 
     }
     
-    public void sortReverseNameFile(List<Arquivo> listFiles){
-        Collections.sort(listFiles, new Comparator<Arquivo>() {
-            @Override
-            public int compare(Arquivo o1, Arquivo o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        }.reversed());        
-    }
-    
+    /**
+     * O método sortSizeFile() ordena a lista dos arquivos do diretório
+     * baseado no tamanho do arquivo.
+     * @param listFiles Lista com o nome de todos os arquivos presente naquele diretório.
+     */
     public void sortSizeFile(List<Arquivo> listFiles){
         Collections.sort(listFiles, new Comparator<Arquivo>() {
             @Override
@@ -148,6 +154,25 @@ public class FileHtml {
         });  
     }
     
+    /**
+     * O método sortNameFile() ordena de maneira inversa 
+     * a lista dos arquivos do diretório baseado nomes dos arquivos.
+     * @param listFiles Lista com o nome de todos os arquivos presente naquele diretório.
+     */
+    public void sortReverseNameFile(List<Arquivo> listFiles){
+        Collections.sort(listFiles, new Comparator<Arquivo>() {
+            @Override
+            public int compare(Arquivo o1, Arquivo o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        }.reversed());        
+    }
+    
+    /**
+     * O método sortReverseLastModifiedFile() ordena de maneira inversa 
+     * a lista dos arquivos do diretório baseado na última modificação.
+     * @param listFiles Lista com o nome de todos os arquivos presente naquele diretório.
+     */
     public void sortReverseLastModifiedFile(List<Arquivo> listFiles){
         Collections.sort(listFiles, new Comparator<Arquivo>() {
             @Override
@@ -157,6 +182,11 @@ public class FileHtml {
         }.reversed());  
     }
     
+    /**
+     * O método sortReverseSizeFile() ordena de maneira inversa 
+     * a lista dos arquivos do diretório baseado no tamanho do arquivo.
+     * @param listFiles Lista com o nome de todos os arquivos presente naquele diretório.
+     */
     public void sortReverseSizeFile(List<Arquivo> listFiles){
         Collections.sort(listFiles, new Comparator<Arquivo>() {
             @Override
@@ -271,18 +301,24 @@ public class FileHtml {
         }
     }
     
+    /**
+     * O método getDirectory() percorre o path do arquivo, abre o arquivo
+     * e retorna o diretório que está sendo exibido nesse arquivo.
+     * @param path String com o nome do arquivo onde será extraído o diretório.
+     * @return directory[3] retorna o diretório que está sendo mostrado no arquivo.
+     */
     public String getDirectory(String path) throws FileNotFoundException, IOException{
         File file = new File(path);
         String[] directory = null;
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
+            /* Percorre o arquivo */
             while ((line = br.readLine()) != null) {
+                /* Pega o título e retorna o nome do diretório que tá sendo exibido */
                 if(line.contains("<title>")){
                     directory = line.split(" ");
-                    //System.out.println("dir:"+directory[3]);
                     break;
                 }
-               // process the line.
             }
         }
         return directory[3];
@@ -337,6 +373,10 @@ public class FileHtml {
         return filesRequired.get(filesRequired.size() - 1).getBuffer();
     }
     
+    /**
+     * O método getSizeList() retorna o tamanho da lista de requisições.
+     * @return filesRequired.size() o tamanho da lista.
+     */
     public int getSizeList(){
         return filesRequired.size();
     }

@@ -50,6 +50,14 @@ public class ListDirectory {
         return false;
     }
     
+    /**
+     * O método generateDirectorySortReverseName() produz o arquivo HTML que contém todos
+     * os conteúdos presentes naquele diretório, na ordem alfabética inversa em relação aos nomes.
+     * @param directory String com o nome do diretório e o seu conteúdo.
+     * @param listFiles Lista com os arquivos presentes naquele diretório.
+     * @return true ou false, booleano true caso consiga gerar um HTML e false caso não consiga.
+     * @throws java.io.IOException
+     */
     public boolean generateDirectorySortReverseName(String directory, List<Arquivo> listFiles) throws IOException {
         try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortReverseName.html"))) {
             new FileHtml().sortReverseNameFile(listFiles);
@@ -65,6 +73,14 @@ public class ListDirectory {
         return false;
     }
     
+    /**
+     * O método generateDirectorySortReverseLastModified() produz o arquivo HTML que contém todos
+     * os conteúdos presentes naquele diretório, na ordem inversa em relação a última modificação.
+     * @param directory String com o nome do diretório e o seu conteúdo.
+     * @param listFiles Lista com os arquivos presentes naquele diretório.
+     * @return true ou false, booleano true caso consiga gerar um HTML e false caso não consiga.
+     * @throws java.io.IOException
+     */
     public boolean generateDirectorySortReverseLastModified(String directory, List<Arquivo> listFiles) throws IOException {
         try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortReverseLastModified.html"))) {
             new FileHtml().sortReverseLastModifiedFile(listFiles);
@@ -80,6 +96,14 @@ public class ListDirectory {
         return false;
     }
     
+    /**
+     * O método generateDirectorySortReverseSize() produz o arquivo HTML que contém todos
+     * os conteúdos presentes naquele diretório, na ordem inversa em relação ao tamanho.
+     * @param directory String com o nome do diretório e o seu conteúdo.
+     * @param listFiles Lista com os arquivos presentes naquele diretório.
+     * @return true ou false, booleano true caso consiga gerar um HTML e false caso não consiga.
+     * @throws java.io.IOException
+     */
     public boolean generateDirectorySortReverseSize(String directory, List<Arquivo> listFiles) throws IOException {
         try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortReverseSize.html"))) {
             new FileHtml().sortReverseSizeFile(listFiles);
@@ -95,10 +119,17 @@ public class ListDirectory {
         return false;
     }
     
+    /**
+     * O método generateDirectorySortName() produz o arquivo HTML que contém todos
+     * os conteúdos presentes naquele diretório, na ordem alfabética em relação aos nomes.
+     * @param directory String com o nome do diretório e o seu conteúdo.
+     * @param listFiles Lista com os arquivos presentes naquele diretório.
+     * @return true ou false, booleano true caso consiga gerar um HTML e false caso não consiga.
+     * @throws java.io.IOException
+     */
     public boolean generateDirectorySortName(String directory, List<Arquivo> listFiles) throws IOException {
         try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortName.html"))) {
             new FileHtml().sortNameFile(listFiles);
-            //generateDirectorySortReverseName(directory, listFiles);
             /* Escrevemos no arquivo */
             f.write(new FileHtml().headerDirectoryHtml(directory, "sortN"));
             f.write(new FileHtml().filesHtml(directory, listFiles));
@@ -111,10 +142,17 @@ public class ListDirectory {
         return false;
     }
     
+    /**
+     * O método generateDirectorySortLastModified() produz o arquivo HTML que contém todos
+     * os conteúdos presentes naquele diretório, na ordem em relação a última modificação.
+     * @param directory String com o nome do diretório e o seu conteúdo.
+     * @param listFiles Lista com os arquivos presentes naquele diretório.
+     * @return true ou false, booleano true caso consiga gerar um HTML e false caso não consiga.
+     * @throws java.io.IOException
+     */
     public boolean generateDirectorySortLastModified(String directory, List<Arquivo> listFiles) throws IOException {
         try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortLastModified.html"))) {
             new FileHtml().sortLastModifiedFile(listFiles);
-            //generateDirectorySortReverseLastModified(directory, listFiles);
             /* Escrevemos no arquivo */
             f.write(new FileHtml().headerDirectoryHtml(directory, "sortL"));
             f.write(new FileHtml().filesHtml(directory, listFiles));
@@ -127,10 +165,17 @@ public class ListDirectory {
         return false;
     }
     
+    /**
+     * O método generateDirectorySortSize() produz o arquivo HTML que contém todos
+     * os conteúdos presentes naquele diretório, na ordem em relação ao tamanho.
+     * @param directory String com o nome do diretório e o seu conteúdo.
+     * @param listFiles Lista com os arquivos presentes naquele diretório.
+     * @return true ou false, booleano true caso consiga gerar um HTML e false caso não consiga.
+     * @throws java.io.IOException
+     */
     public boolean generateDirectorySortSize(String directory, List<Arquivo> listFiles) throws IOException {
         try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortSize.html"))) {
             new FileHtml().sortSizeFile(listFiles);
-            //generateDirectorySortReverseSize(directory, listFiles);
             /* Escrevemos no arquivo */
             f.write(new FileHtml().headerDirectoryHtml(directory, "sortS"));
             f.write(new FileHtml().filesHtml(directory, listFiles));
@@ -175,7 +220,6 @@ public class ListDirectory {
             generateDirectorySortReverseLastModified(directory, listFiles);
             generateDirectorySortSize(directory, listFiles);
             generateDirectorySortReverseSize(directory, listFiles);
-            //new FileHtml().sortReverseLastModifiedFile(listFiles);
             return true;
         }
         return false;
