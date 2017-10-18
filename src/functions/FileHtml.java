@@ -24,8 +24,8 @@ public class FileHtml {
      * @param directory String com o nome do diretório solicitado pelo cliente.
      * @return String com o conteúdo do arquivo HTML, abrindo as TAG que conterão os diretórios listados.
      */
-    public String headerDirectoryHtml(String directory) {
-        return "<!DOCTYPE html>\n" +
+    public String headerDirectoryHtml(String directory, String sortFiles) {
+        String head = "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<head>\n" +
                 "<style>\n" +
@@ -38,12 +38,31 @@ public class FileHtml {
                 "<h1> Index of " + directory + "</h1>\n" +
                 "<table>\n" +
                 "<tbody>\n" +
-                "<tr>\n" +
-                "<th> <a href='/directorySortName.html' style=\"text-decoration: none; color : #000000;\"> Name </a> </th>\n" +
-                "<th> <a href='/directorySortLastModified.html' style=\"text-decoration: none; color : #000000;\"> Last modified </a> </th>\n" +
-                "<th> <a href='/directorySortSize.html' style=\"text-decoration: none; color : #000000;\"> Size </a> </th>\n" +
-                "</tr>\n" +
-                "<hr>\n";
+                "<tr>\n" ;
+        
+        String name = " ";
+        if(sortFiles.equalsIgnoreCase("sortN")) {
+            name = "<th> <a href='/directorySortReverseName.html' style=\"text-decoration: none; color : #000000;\"> Name </a> </th>\n";
+        } else {
+            name = "<th> <a href='/directorySortName.html' style=\"text-decoration: none; color : #000000;\"> Name </a> </th>\n";
+        }
+        
+        String lastModified = " ";
+        if(sortFiles.equalsIgnoreCase("sortL")) {
+            lastModified = "<th> <a href='/directorySortReverseLastModified.html' style=\"text-decoration: none; color : #000000;\"> Last modified </a> </th>\n";
+        } else {
+            lastModified = "<th> <a href='/directorySortLastModified.html' style=\"text-decoration: none; color : #000000;\"> Last modified </a> </th>\n";
+        }
+                
+        String size = " ";
+        if(sortFiles.equalsIgnoreCase("sortS")) {
+            size = "<th> <a href='/directorySortReverseSize.html' style=\"text-decoration: none; color : #000000;\"> Size </a> </th>\n";
+        } else {
+            size = "<th> <a href='/directorySortSize.html' style=\"text-decoration: none; color : #000000;\"> Size </a> </th>\n";
+        }
+                
+        String footer = "</tr>\n <hr>\n";
+        return head + name + lastModified + size + footer;
     }
     
     /**
@@ -108,10 +127,16 @@ public class FileHtml {
                 return o1.getLastModified().compareTo(o2.getLastModified());
             }
         });  
-        /*for(int i = 0; i < listFiles.size(); i++){
-            Arquivo a = listFiles.get(i);
-            System.out.println(a.getLastModified());
-        }*/
+
+    }
+    
+    public void sortReverseNameFile(List<Arquivo> listFiles){
+        Collections.sort(listFiles, new Comparator<Arquivo>() {
+            @Override
+            public int compare(Arquivo o1, Arquivo o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        }.reversed());        
     }
     
     public void sortSizeFile(List<Arquivo> listFiles){
@@ -121,10 +146,24 @@ public class FileHtml {
                 return Integer.compare(Integer.parseInt(o1.getSize()), Integer.parseInt(o2.getSize()));
             }
         });  
-        /*for(int i = 0; i < listFiles.size(); i++){
-            Arquivo a = listFiles.get(i);
-            System.out.println(a.getSize());
-        }*/
+    }
+    
+    public void sortReverseLastModifiedFile(List<Arquivo> listFiles){
+        Collections.sort(listFiles, new Comparator<Arquivo>() {
+            @Override
+            public int compare(Arquivo o1, Arquivo o2) {
+                return o1.getLastModified().compareTo(o2.getLastModified());
+            }
+        }.reversed());  
+    }
+    
+    public void sortReverseSizeFile(List<Arquivo> listFiles){
+        Collections.sort(listFiles, new Comparator<Arquivo>() {
+            @Override
+            public int compare(Arquivo o1, Arquivo o2) {
+                return Integer.compare(Integer.parseInt(o1.getSize()), Integer.parseInt(o2.getSize()));
+            }
+        }.reversed());  
     }
     
     /**

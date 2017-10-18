@@ -39,7 +39,52 @@ public class ListDirectory {
     public boolean generateDirectoryHtml(String directory, List<Arquivo> listFiles) throws IOException {
         try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directory.html"))) {
             /* Escrevemos no arquivo */
-            f.write(new FileHtml().headerDirectoryHtml(directory));
+            f.write(new FileHtml().headerDirectoryHtml(directory, "null"));
+            f.write(new FileHtml().filesHtml(directory, listFiles));
+            f.write(new FileHtml().footerDirectoryHtml());
+            f.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public boolean generateDirectorySortReverseName(String directory, List<Arquivo> listFiles) throws IOException {
+        try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortReverseName.html"))) {
+            new FileHtml().sortReverseNameFile(listFiles);
+            /* Escrevemos no arquivo */
+            f.write(new FileHtml().headerDirectoryHtml(directory, "sortRN"));
+            f.write(new FileHtml().filesHtml(directory, listFiles));
+            f.write(new FileHtml().footerDirectoryHtml());
+            f.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public boolean generateDirectorySortReverseLastModified(String directory, List<Arquivo> listFiles) throws IOException {
+        try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortReverseLastModified.html"))) {
+            new FileHtml().sortReverseLastModifiedFile(listFiles);
+            /* Escrevemos no arquivo */
+            f.write(new FileHtml().headerDirectoryHtml(directory, "sortRL"));
+            f.write(new FileHtml().filesHtml(directory, listFiles));
+            f.write(new FileHtml().footerDirectoryHtml());
+            f.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public boolean generateDirectorySortReverseSize(String directory, List<Arquivo> listFiles) throws IOException {
+        try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortReverseSize.html"))) {
+            new FileHtml().sortReverseSizeFile(listFiles);
+            /* Escrevemos no arquivo */
+            f.write(new FileHtml().headerDirectoryHtml(directory, "sortRS"));
             f.write(new FileHtml().filesHtml(directory, listFiles));
             f.write(new FileHtml().footerDirectoryHtml());
             f.close();
@@ -53,8 +98,9 @@ public class ListDirectory {
     public boolean generateDirectorySortName(String directory, List<Arquivo> listFiles) throws IOException {
         try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortName.html"))) {
             new FileHtml().sortNameFile(listFiles);
+            //generateDirectorySortReverseName(directory, listFiles);
             /* Escrevemos no arquivo */
-            f.write(new FileHtml().headerDirectoryHtml(directory));
+            f.write(new FileHtml().headerDirectoryHtml(directory, "sortN"));
             f.write(new FileHtml().filesHtml(directory, listFiles));
             f.write(new FileHtml().footerDirectoryHtml());
             f.close();
@@ -68,8 +114,9 @@ public class ListDirectory {
     public boolean generateDirectorySortLastModified(String directory, List<Arquivo> listFiles) throws IOException {
         try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortLastModified.html"))) {
             new FileHtml().sortLastModifiedFile(listFiles);
+            //generateDirectorySortReverseLastModified(directory, listFiles);
             /* Escrevemos no arquivo */
-            f.write(new FileHtml().headerDirectoryHtml(directory));
+            f.write(new FileHtml().headerDirectoryHtml(directory, "sortL"));
             f.write(new FileHtml().filesHtml(directory, listFiles));
             f.write(new FileHtml().footerDirectoryHtml());
             f.close();
@@ -83,8 +130,9 @@ public class ListDirectory {
     public boolean generateDirectorySortSize(String directory, List<Arquivo> listFiles) throws IOException {
         try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortSize.html"))) {
             new FileHtml().sortSizeFile(listFiles);
+            //generateDirectorySortReverseSize(directory, listFiles);
             /* Escrevemos no arquivo */
-            f.write(new FileHtml().headerDirectoryHtml(directory));
+            f.write(new FileHtml().headerDirectoryHtml(directory, "sortS"));
             f.write(new FileHtml().filesHtml(directory, listFiles));
             f.write(new FileHtml().footerDirectoryHtml());
             f.close();
@@ -122,8 +170,12 @@ public class ListDirectory {
         /* Verificamos se o arquivo com o conteúdo dos diretórios foi criado */
         if(generateDirectoryHtml(directory, listFiles)){
             generateDirectorySortName(directory, listFiles);
+            generateDirectorySortReverseName(directory, listFiles);
             generateDirectorySortLastModified(directory, listFiles);
+            generateDirectorySortReverseLastModified(directory, listFiles);
             generateDirectorySortSize(directory, listFiles);
+            generateDirectorySortReverseSize(directory, listFiles);
+            //new FileHtml().sortReverseLastModifiedFile(listFiles);
             return true;
         }
         return false;
