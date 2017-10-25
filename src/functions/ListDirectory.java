@@ -37,7 +37,7 @@ public class ListDirectory {
      * @throws java.io.IOException
      */
     public boolean generateDirectoryHtml(String directory, List<Arquivo> listFiles) throws IOException {
-        try (BufferedWriter f = new BufferedWriter(new FileWriter(directory +"/directory.html"))) {
+        try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directory.html"))) {
             /* Escrevemos no arquivo */
             f.write(new FileHtml().headerDirectoryHtml(directory, "null"));
             f.write(new FileHtml().filesHtml(directory, listFiles));
@@ -59,7 +59,7 @@ public class ListDirectory {
      * @throws java.io.IOException
      */
     public boolean generateDirectorySortReverseName(String directory, List<Arquivo> listFiles) throws IOException {
-        try (BufferedWriter f = new BufferedWriter(new FileWriter(directory + "/directorySortReverseName.html"))) {
+        try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortReverseName.html"))) {
             new FileHtml().sortReverseNameFile(listFiles);
             /* Escrevemos no arquivo */
             f.write(new FileHtml().headerDirectoryHtml(directory, "sortRN"));
@@ -82,7 +82,7 @@ public class ListDirectory {
      * @throws java.io.IOException
      */
     public boolean generateDirectorySortReverseLastModified(String directory, List<Arquivo> listFiles) throws IOException {
-        try (BufferedWriter f = new BufferedWriter(new FileWriter(directory + "/directorySortReverseLastModified.html"))) {
+        try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortReverseLastModified.html"))) {
             new FileHtml().sortReverseLastModifiedFile(listFiles);
             /* Escrevemos no arquivo */
             f.write(new FileHtml().headerDirectoryHtml(directory, "sortRL"));
@@ -105,7 +105,7 @@ public class ListDirectory {
      * @throws java.io.IOException
      */
     public boolean generateDirectorySortReverseSize(String directory, List<Arquivo> listFiles) throws IOException {
-        try (BufferedWriter f = new BufferedWriter(new FileWriter(directory + "/directorySortReverseSize.html"))) {
+        try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortReverseSize.html"))) {
             new FileHtml().sortReverseSizeFile(listFiles);
             /* Escrevemos no arquivo */
             f.write(new FileHtml().headerDirectoryHtml(directory, "sortRS"));
@@ -128,7 +128,7 @@ public class ListDirectory {
      * @throws java.io.IOException
      */
     public boolean generateDirectorySortName(String directory, List<Arquivo> listFiles) throws IOException {
-        try (BufferedWriter f = new BufferedWriter(new FileWriter(directory + "/directorySortName.html"))) {
+        try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortName.html"))) {
             new FileHtml().sortNameFile(listFiles);
             /* Escrevemos no arquivo */
             f.write(new FileHtml().headerDirectoryHtml(directory, "sortN"));
@@ -151,7 +151,7 @@ public class ListDirectory {
      * @throws java.io.IOException
      */
     public boolean generateDirectorySortLastModified(String directory, List<Arquivo> listFiles) throws IOException {
-        try (BufferedWriter f = new BufferedWriter(new FileWriter(directory + "/directorySortLastModified.html"))) {
+        try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortLastModified.html"))) {
             new FileHtml().sortLastModifiedFile(listFiles);
             /* Escrevemos no arquivo */
             f.write(new FileHtml().headerDirectoryHtml(directory, "sortL"));
@@ -174,7 +174,7 @@ public class ListDirectory {
      * @throws java.io.IOException
      */
     public boolean generateDirectorySortSize(String directory, List<Arquivo> listFiles) throws IOException {
-        try (BufferedWriter f = new BufferedWriter(new FileWriter(directory + "/directorySortSize.html"))) {
+        try (BufferedWriter f = new BufferedWriter(new FileWriter("/html/directorySortSize.html"))) {
             new FileHtml().sortSizeFile(listFiles);
             /* Escrevemos no arquivo */
             f.write(new FileHtml().headerDirectoryHtml(directory, "sortS"));

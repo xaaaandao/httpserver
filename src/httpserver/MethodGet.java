@@ -308,8 +308,6 @@ public class MethodGet {
     public String isDirOrIsFile(String path, BufferedReader buffer) throws IOException {
         String newPath = null;
         String nameDirectory = "null";
-        String query = " ";
-        String directory = " ";
         
         /* Verifica se existe o virtual path */
         if(isVirtualPath(path)){
@@ -320,14 +318,6 @@ public class MethodGet {
             new FileHtml().generateVirtualHtml(newPath);
             virtualPath = true;
             return newPath;
-        }
-        
-        if(path.contains("?n=") || path.contains("?l=") || path.contains("?s=")){
-           int initialQuery = path.indexOf("?");
-           query = path.substring(initialQuery+1, path.length());
-            System.out.println("query"+query);
-           path = path.substring(0, initialQuery);
-            System.out.println("query"+query);
         }
         
         /* Verificamos se o path que veio é o / se for está referindo ao diretório /html */
@@ -344,20 +334,11 @@ public class MethodGet {
             }
         }
         
-        System.out.println("->"+newPath);
         /* Se não for um arquivo e nenhum virtual path verificamos se é um diretório */
         if (new File(newPath).isDirectory()) {
-            System.out.println("aki0");
             if (new ListDirectory().filesDirectory(newPath)) {
                 nameDirectory = newPath;
-                if(query.equalsIgnoreCase(" ")){
-                    newPath = nameDirectory + "/directory.html";
-                } else {
-                    if(query.equalsIgnoreCase("?n=o")){
-                        newPath = nameDirectory + "/directorySortName.html";
-                        System.out.println("new"+newPath);
-                    }
-                }
+                newPath = "/html/directory.html";
                 isDirectory = true;
             }
         }

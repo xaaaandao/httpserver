@@ -42,9 +42,9 @@ public class FileHtml {
         
         String name = " ";
         if(sortFiles.equalsIgnoreCase("sortN")) {
-            name = "<th> <a href='" + directory + "/?n=r" + "' style=\"text-decoration: none; color : #000000;\"> Name </a> </th>\n";
+            name = "<th> <a href='/directorySortReverseName.html' style=\"text-decoration: none; color : #000000;\"> Name </a> </th>\n";
         } else {
-            name = "<th> <a href='" + directory + "/?n=o" + "' style=\"text-decoration: none; color : #000000;\"> Name </a> </th>\n";
+            name = "<th> <a href='/directorySortName.html' style=\"text-decoration: none; color : #000000;\"> Name </a> </th>\n";
         }
         
         String lastModified = " ";
