@@ -325,7 +325,9 @@ public class MethodGet {
         if(path.contains("?n=") || path.contains("?l=") || path.contains("?s=")){
            int initialQuery = path.indexOf("?");
            query = path.substring(initialQuery+1, path.length());
-           directory = path.substring(0, initialQuery-1);
+            System.out.println("query"+query);
+           path = path.substring(0, initialQuery);
+            System.out.println("query"+query);
         }
         
         /* Verificamos se o path que veio é o / se for está referindo ao diretório /html */
@@ -342,14 +344,20 @@ public class MethodGet {
             }
         }
         
+        System.out.println("->"+newPath);
         /* Se não for um arquivo e nenhum virtual path verificamos se é um diretório */
         if (new File(newPath).isDirectory()) {
+            System.out.println("aki0");
             if (new ListDirectory().filesDirectory(newPath)) {
                 nameDirectory = newPath;
-                System.out.println("name"+nameDirectory);
-                System.out.println("new"+newPath);
-                newPath = nameDirectory + "/directory.html";
-                System.out.println("+"+newPath);
+                if(query.equalsIgnoreCase(" ")){
+                    newPath = nameDirectory + "/directory.html";
+                } else {
+                    if(query.equalsIgnoreCase("?n=o")){
+                        newPath = nameDirectory + "/directorySortName.html";
+                        System.out.println("new"+newPath);
+                    }
+                }
                 isDirectory = true;
             }
         }
