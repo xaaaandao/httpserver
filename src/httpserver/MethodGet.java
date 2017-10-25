@@ -308,6 +308,8 @@ public class MethodGet {
     public String isDirOrIsFile(String path, BufferedReader buffer) throws IOException {
         String newPath = null;
         String nameDirectory = "null";
+        String query = " ";
+        String directory = " ";
         
         /* Verifica se existe o virtual path */
         if(isVirtualPath(path)){
@@ -318,6 +320,12 @@ public class MethodGet {
             new FileHtml().generateVirtualHtml(newPath);
             virtualPath = true;
             return newPath;
+        }
+        
+        if(path.contains("?n=") || path.contains("?l=") || path.contains("?s=")){
+           int initialQuery = path.indexOf("?");
+           query = path.substring(initialQuery+1, path.length());
+           directory = path.substring(0, initialQuery-1);
         }
         
         /* Verificamos se o path que veio é o / se for está referindo ao diretório /html */
@@ -338,7 +346,10 @@ public class MethodGet {
         if (new File(newPath).isDirectory()) {
             if (new ListDirectory().filesDirectory(newPath)) {
                 nameDirectory = newPath;
-                newPath = "/html/directory.html";
+                System.out.println("name"+nameDirectory);
+                System.out.println("new"+newPath);
+                newPath = nameDirectory + "/directory.html";
+                System.out.println("+"+newPath);
                 isDirectory = true;
             }
         }
