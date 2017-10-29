@@ -338,7 +338,8 @@ public class MethodGet {
         if (new File(newPath).isDirectory()) {
             if (new ListDirectory().filesDirectory(newPath)) {
                 nameDirectory = newPath;
-                newPath = "/html/directory.html";
+                newPath = newPath + "/directory.html";
+                System.out.println("new"+newPath);
                 isDirectory = true;
             }
         }
