@@ -294,7 +294,30 @@ public class MethodGet {
         
         return false;
     }
-
+    
+    public String returnQuery(String query){
+        if(query == null){
+            return "/directory.html";
+        }
+        switch(query){
+            case "n=o":
+                return "/directorySortName.html";
+            case "n=r":
+                return "/directorySortReverseName.html";
+            case "l=o":
+                return "/directorySortLastModified.html";
+            case "l=r":
+                return "/directorySortReverseLastModified.html";
+            case "s=o":
+                return "/directorySortSize.html";
+            case "s=r":
+                return "/directorySortReverseSize.html";
+            default:
+                break;
+        }
+        return null;
+    }
+    
     /**
      * O método isDirOrIsFile() verifica se o path que foi requisitado pelo cliente
      * é um virtual path ou um diretório ou uma página HTML, além do que verifica
@@ -308,6 +331,15 @@ public class MethodGet {
     public String isDirOrIsFile(String path, BufferedReader buffer) throws IOException {
         String newPath = null;
         String nameDirectory = "null";
+        String query = null;
+        
+        //System.out.println("->"+path);
+        
+        if(path.contains("/?") == true){
+            int startQuery = path.indexOf("?");
+            query = path.substring(startQuery + 1, path.length());
+            path = path.substring(0, startQuery);
+        }
         
         /* Verifica se existe o virtual path */
         if(isVirtualPath(path)){
@@ -317,6 +349,7 @@ public class MethodGet {
             /* Geramos o arquivo desse virtual path */
             new FileHtml().generateVirtualHtml(newPath);
             virtualPath = true;
+            //System.out.println("new"+newPath);
             return newPath;
         }
         
@@ -326,33 +359,34 @@ public class MethodGet {
         } else {
             /* Caso não seja verificamos se o path não é um arquivo */
             newPath = "/html" + path;
+            //System.out.println("aka:" + newPath);
             File existsFile = new File(newPath);
             
             /* Se não existir esse arquivo retorna-se a página com erro 404 */
             if ((!existsFile.canRead() && !existsFile.isFile() && !existsFile.isDirectory()) || isPathInvisible(newPath)) {
                 newPath = "/html/error404.html";
             }
+            
         }
         
         /* Se não for um arquivo e nenhum virtual path verificamos se é um diretório */
         if (new File(newPath).isDirectory()) {
             if (new ListDirectory().filesDirectory(newPath)) {
                 nameDirectory = newPath;
-                newPath = newPath + "/directory.html";
-                System.out.println("new"+newPath);
+                newPath = newPath + returnQuery(query);
                 isDirectory = true;
             }
         }
         
         /* Depois de achado adicionamos na lista de arquivos que forem requiridos */
         if(newPath.contains("infoAdmin.html") == false){
-            //System.out.println("**"+newPath);
             if(newPath.contains("directorySort")){
                 nameDirectory = new FileHtml().getDirectory(newPath);
             }
-            //System.out.println("***"+nameDirectory);
+            //System.out.println("antes do fim: "+newPath);
             new FileHtml().setFilesRequired(newPath, nameDirectory, buffer);
         }
+        //System.out.println("fim:" + newPath);
         return newPath;
     }
 
@@ -367,6 +401,7 @@ public class MethodGet {
      * @throws java.lang.InterruptedException
      */
     public void processGet(String path, BufferedReader buffer) throws IOException, InterruptedException {
+        //System.out.println("ppppppp: " + path);
         isDirectory = false;
         virtualPath = false;
         

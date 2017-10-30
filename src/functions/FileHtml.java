@@ -25,6 +25,9 @@ public class FileHtml {
      * @return String com o conteúdo do arquivo HTML, abrindo as TAG que conterão os diretórios listados.
      */
     public String headerDirectoryHtml(String directory, String sortFiles) {
+        if(directory.length() > 1 && directory.charAt(directory.length() - 1) == '/'){
+            directory = directory.substring(0, directory.length() - 1);
+        }
         String head = "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<head>\n" +
@@ -41,24 +44,28 @@ public class FileHtml {
                 "<tr>\n" ;
         
         String name = " ";
+        directory = directory.replace("/html", "");
+        if(directory.length() > 1 && directory.charAt(directory.length() - 1) == '/'){
+            directory = directory.substring(0, directory.length()-1);
+        }
         if(sortFiles.equalsIgnoreCase("sortN")) {
-            name = "<th> <a href='/directorySortReverseName.html' style=\"text-decoration: none; color : #000000;\"> Name </a> </th>\n";
+            name = "<th> <a href='" + directory +"/?n=r' style=\"text-decoration: none; color : #000000;\"> Name </a> </th>\n";
         } else {
-            name = "<th> <a href='/directorySortName.html' style=\"text-decoration: none; color : #000000;\"> Name </a> </th>\n";
+            name = "<th> <a href='" +  directory + "/?n=o' style=\"text-decoration: none; color : #000000;\"> Name </a> </th>\n";
         }
         
         String lastModified = " ";
         if(sortFiles.equalsIgnoreCase("sortL")) {
-            lastModified = "<th> <a href='/directorySortReverseLastModified.html' style=\"text-decoration: none; color : #000000;\"> Last modified </a> </th>\n";
+            lastModified = "<th> <a href='"+ directory + "/?l=r' style=\"text-decoration: none; color : #000000;\"> Last modified </a> </th>\n";
         } else {
-            lastModified = "<th> <a href='/directorySortLastModified.html' style=\"text-decoration: none; color : #000000;\"> Last modified </a> </th>\n";
+            lastModified = "<th> <a href='" + directory +"/?l=o' style=\"text-decoration: none; color : #000000;\"> Last modified </a> </th>\n";
         }
                 
         String size = " ";
         if(sortFiles.equalsIgnoreCase("sortS")) {
-            size = "<th> <a href='/directorySortReverseSize.html' style=\"text-decoration: none; color : #000000;\"> Size </a> </th>\n";
+            size = "<th> <a href='" + directory + "/?s=r' style=\"text-decoration: none; color : #000000;\"> Size </a> </th>\n";
         } else {
-            size = "<th> <a href='/directorySortSize.html' style=\"text-decoration: none; color : #000000;\"> Size </a> </th>\n";
+            size = "<th> <a href='" + directory + "/?s=o' style=\"text-decoration: none; color : #000000;\"> Size </a> </th>\n";
         }
                 
         String footer = "</tr>\n <hr>\n";
@@ -281,8 +288,7 @@ public class FileHtml {
                                     "<hr> </hr>\n" +
                                     "<div id=\"conteudo\"></div>  \n" +
                                 "</body>\n" +
-                            "</html>" + 
-                        "</>";
+                            "</html>";
         return content;
     }
     
@@ -335,6 +341,12 @@ public class FileHtml {
     public void setFilesRequired(String file, String nameDirectory, BufferedReader buffer) {
         /* Instanciando uma classe */
         InfoRequest i = new InfoRequest();
+        if(file.charAt(file.lastIndexOf("/")) == '/' && file.charAt(file.lastIndexOf("/") - 1) == '/'){
+            StringBuilder sb = new StringBuilder(file);
+            sb.deleteCharAt(file.lastIndexOf("/"));
+            file = sb.toString();
+        }
+        //System.out.println("file"+file);
         i.setPage(file);
         i.setNameDirectory(nameDirectory);
         i.setBuffer(buffer);

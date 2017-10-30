@@ -19,9 +19,14 @@ public class ListDirectory {
      * @return parentDirectory, String com o diretório pai.
      */
     public String getParentDirectory(String directory){
+        if(directory.length() > 1 && directory.charAt(directory.length() - 1 ) == '/'){
+            directory = directory.substring(0, directory.length()-1);
+        }
+        //System.out.println("getpar: " + directory);
         String parentDirectory = directory;
         parentDirectory = parentDirectory.replace("/html", "");
         parentDirectory = parentDirectory.substring(0, parentDirectory.lastIndexOf("/"));
+//        System.out.println("get"+parentDirectory);
         if(parentDirectory.length() == 0){
             return "/";
         }
@@ -214,6 +219,9 @@ public class ListDirectory {
 
         /* Verificamos se o arquivo com o conteúdo dos diretórios foi criado */
         if(generateDirectoryHtml(directory, listFiles)){
+            if(directory.length() > 1 && directory.charAt(directory.length() - 1) == '/'){
+                directory = directory.substring(0, directory.length() - 1);
+            }
             generateDirectorySortName(directory, listFiles);
             generateDirectorySortReverseName(directory, listFiles);
             generateDirectorySortLastModified(directory, listFiles);
