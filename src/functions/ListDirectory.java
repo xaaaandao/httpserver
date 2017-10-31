@@ -19,18 +19,29 @@ public class ListDirectory {
      * @return parentDirectory, String com o diretório pai.
      */
     public String getParentDirectory(String directory){
-        if(directory.length() > 1 && directory.charAt(directory.length() - 1 ) == '/'){
-            directory = directory.substring(0, directory.length()-1);
-        }
-        //System.out.println("getpar: " + directory);
-        String parentDirectory = directory;
+        /*String parentDirectory = directory;
         parentDirectory = parentDirectory.replace("/html", "");
         parentDirectory = parentDirectory.substring(0, parentDirectory.lastIndexOf("/"));
-//        System.out.println("get"+parentDirectory);
+        if(parentDirectory.length() == 0){
+            return "/";
+        }
+        return parentDirectory;*/
+                StringBuilder removeCharacter = new StringBuilder(directory);
+        System.out.println("dir111"+directory);
+        while(removeCharacter.charAt(removeCharacter.length() - 1) == '/'){
+            removeCharacter = removeCharacter.deleteCharAt(removeCharacter.length() - 1);
+        }
+        String parentDirectory = removeCharacter.toString();
+        int lastOccurence = parentDirectory.lastIndexOf("/");
+        parentDirectory = parentDirectory.substring(0, lastOccurence);
+        parentDirectory = parentDirectory.replace("/html", "");
+        System.out.println("size:" +parentDirectory.length());
+        System.out.println("par:" +parentDirectory);
         if(parentDirectory.length() == 0){
             return "/";
         }
         return parentDirectory;
+
     }
     
     /**
@@ -42,8 +53,9 @@ public class ListDirectory {
      * @throws java.io.IOException
      */
     public boolean generateDirectoryHtml(String directory, List<Arquivo> listFiles) throws IOException {
-        try (BufferedWriter f = new BufferedWriter(new FileWriter(directory + "/directory.html"))) {
+        try (BufferedWriter f = new BufferedWriter(new FileWriter(directory+"/directory.html"))) {
             /* Escrevemos no arquivo */
+                    System.out.println("dir:"+directory);
             f.write(new FileHtml().headerDirectoryHtml(directory, "null"));
             f.write(new FileHtml().filesHtml(directory, listFiles));
             f.write(new FileHtml().footerDirectoryHtml());
@@ -55,7 +67,7 @@ public class ListDirectory {
         return false;
     }
     
-    /**
+      /**
      * O método generateDirectorySortReverseName() produz o arquivo HTML que contém todos
      * os conteúdos presentes naquele diretório, na ordem alfabética inversa em relação aos nomes.
      * @param directory String com o nome do diretório e o seu conteúdo.
@@ -193,6 +205,7 @@ public class ListDirectory {
         return false;
     }
     
+    
     /**
      * O método filesDirectory() armazena todos os arquivos e diretórios em uma lista
      * com o nome, o tamanho e a última modificação.
@@ -211,7 +224,7 @@ public class ListDirectory {
             Arquivo a = new Arquivo();
             String lastModified = directory + "/";
             a.setName(allOfFiles[i].getName());
-            a.setSize(String.valueOf(allOfFiles[i].length()));
+            a.setSize(String.valueOf(allOfFiles[i].length()));// + " bytes");
             lastModified = lastModified + allOfFiles[i].getName();
             a.setLastModified(new MethodGet().headerLastModified(new File(lastModified)));
             listFiles.add(a);
@@ -219,9 +232,6 @@ public class ListDirectory {
 
         /* Verificamos se o arquivo com o conteúdo dos diretórios foi criado */
         if(generateDirectoryHtml(directory, listFiles)){
-            if(directory.length() > 1 && directory.charAt(directory.length() - 1) == '/'){
-                directory = directory.substring(0, directory.length() - 1);
-            }
             generateDirectorySortName(directory, listFiles);
             generateDirectorySortReverseName(directory, listFiles);
             generateDirectorySortLastModified(directory, listFiles);

@@ -49,8 +49,17 @@ public class MethodGet {
             case "aac":
                 contentType = "audio/aac;charset=UTF-8\r\n";
                 break;
+            case "abw":
+                contentType = "application/x-abiword;charset=UTF-8\r\n";
+                break;
+            case "arc":
+                contentType = "application/octet-stream;charset=UTF-8\r\n";
+                break;
             case "avi":
                 contentType = "video/x-msvideo;charset=UTF-8\r\n";
+                break;
+            case "azw":
+                contentType = "application/vnd.amazon.ebook;charset=UTF-8\r\n";
                 break;
             case "bin":
                 contentType = "application/octet-stream;charset=UTF-8\r\n";
@@ -61,11 +70,20 @@ public class MethodGet {
             case "bz2":
                 contentType = "application/x-bzip2;charset=UTF-8\r\n";
                 break;
+            case "csh":
+                contentType = "application/x-csh;charset=UTF-8\r\n";
+                break;
             case "css":
                 contentType = "text/css;charset=UTF-8\r\n";
                 break;
+            case "csv":
+                contentType = "text/csv;charset=UTF-8\r\n";
+                break;
             case "doc":
                 contentType = "application/msword;charset=UTF-8\r\n";
+                break;
+            case "eot":
+                contentType = "application/vnd.ms-fontobject;charset=UTF-8\r\n";
                 break;
             case "epub":
                 contentType = "application/epub+zip;charset=UTF-8\r\n";
@@ -82,6 +100,9 @@ public class MethodGet {
             case "ico":
                 contentType = "image/x-icon;charset=UTF-8\r\n";
                 break;
+            case "ics":
+                contentType = "text/calendar;charset=UTF-8\r\n";
+                break;
             case "jar":
                 contentType = "application/java-archive;charset=UTF-8\r\n";
                 break;
@@ -97,11 +118,38 @@ public class MethodGet {
             case "json":
                 contentType = "application/json;charset=UTF-8\r\n";
                 break;
+            case "mid":
+                contentType = "audio/midi;charset=UTF-8\r\n";
+                break;
+            case "midi":
+                contentType = "audio/midi;charset=UTF-8\r\n";
+                break;
             case "mpeg":
                 contentType = "video/mpeg;charset=UTF-8\r\n";
                 break;
+            case "mpkg":
+                contentType = "application/vnd.apple.installer+xml;charset=UTF-8\r\n";
+                break;
+            case "odp":
+                contentType = "application/vnd.oasis.opendocument.presentation;charset=UTF-8\r\n";
+                break;
+            case "ods":
+                contentType = "application/vnd.oasis.opendocument.spreadsheet;charset=UTF-8\r\n";
+                break;
             case "odt":
                 contentType = "application/vnd.oasis.opendocument.text;charset=UTF-8\r\n";
+                break;
+            case "oga":
+                contentType = "audio/ogg;charset=UTF-8\r\n";
+                break;
+            case "ogv":
+                contentType = "video/ogg;charset=UTF-8\r\n";
+                break;
+            case "ogx":
+                contentType = "application/ogg;charset=UTF-8\r\n";
+                break;
+            case "otf":
+                contentType = "font/otf;charset=UTF-8\r\n";
                 break;
             case "png":
                 contentType = "image/png;charset=UTF-8\r\n";
@@ -121,14 +169,47 @@ public class MethodGet {
             case "sh":
                 contentType = "application/x-sh;charset=UTF-8\r\n";
                 break;
+            case "svg":
+                contentType = "image/svg+xml;charset=UTF-8\r\n";
+                break;
+            case "swf":
+                contentType = "application/x-shockwave-flash;charset=UTF-8\r\n";
+                break;
             case "tar":
                 contentType = "application/x-tar;charset=UTF-8\r\n";
+                break;
+            case "tif":
+                contentType = "image/tiff;charset=UTF-8\r\n";
+                break;
+            case "tiff":
+                contentType = "image/tiff;charset=UTF-8\r\n";
+                break;
+            case "ts":
+                contentType = "application/typescript;charset=UTF-8\r\n";
                 break;
             case "ttf":
                 contentType = "font/ttf;charset=UTF-8\r\n";
                 break;
+            case "vsd":
+                contentType = "application/vnd.visio;charset=UTF-8\r\n";
+                break;
             case "wav":
                 contentType = "audio/x-wav;charset=UTF-8\r\n";
+                break;
+            case "weba":
+                contentType = "audio/webm;charset=UTF-8\r\n";
+                break;
+            case "webm":
+                contentType = "video/webm;charset=UTF-8\r\n";
+                break;
+            case "webp":
+                contentType = "image/webp;charset=UTF-8\r\n";
+                break;
+            case "woff":
+                contentType = "font/woff;charset=UTF-8\r\n";
+                break;
+            case "woff2":
+                contentType = "font/woff2;charset=UTF-8\r\n";
                 break;
             case "xhtml":
                 contentType = "application/x-abiword;charset=UTF-8\r\n";
@@ -144,6 +225,9 @@ public class MethodGet {
             case "xml":
                 contentType = "application/xml;charset=UTF-8\r\n";
                 break;
+            case "xul":
+                contentType = "application/vnd.mozilla.xul+xml;charset=UTF-8\r\n";
+                break;
             case "zip":
                 contentType = "application/zip;charset=UTF-8\r\n";
                 break;
@@ -151,11 +235,14 @@ public class MethodGet {
                 contentType = "video/3gpp;charset=UTF-8\r\n"
                         + "Content-Type: audio/3gpp;charset=UTF-8\r\n";
                 break;
+            case "3g2":
+                contentType = "video/3gpp2;charset=UTF-8\r\n"
+                        + "Content-Type: audio/3gpp2;charset=UTF-8\r\n";
+                break;
             case "7z":
                 contentType = "application/x-7z-compressed;charset=UTF-8\r\n";
                 break;
             default:
-                contentType = "text/plain";
                 break;
         }
         return contentType;
@@ -180,7 +267,7 @@ public class MethodGet {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         return sdf.format(new Date(f.lastModified()));
-    }   
+    }
 
     /**
      * O método responseHeader() recebe o arquivo que irá ser retornado para o cliente
@@ -189,11 +276,10 @@ public class MethodGet {
      * utilizamos para pegar a sua extensão, com todas essas informações montamos o cabeçalho.
      * @param f Arquivo com conteúdo HTML onde extraímos o tamanho e sua última modificação.
      * @param nameFile String com o nome do arquivo onde será extraído sua extensão.
-     * @param buffer
      * @throws java.io.IOException
      * @return header String com o cabeçalho montado.
      */
-    public String responseHeader(File f, String nameFile, BufferedReader buffer) throws IOException {
+    public String responseHeader(File f, String nameFile) throws IOException {
         /* Pega a extensão do nome do arquivo */
         String extension = nameFile.substring(nameFile.lastIndexOf(".") + 1, nameFile.length());
         
@@ -202,13 +288,11 @@ public class MethodGet {
                 + "Date: " + headerDate() + "\r\n"
                 + "Last-Modified: " + headerLastModified(f) + "\r\n"
                 + "Content-Length: " + f.length() + "\r\n"
-                + "Set-Cookie: cookieName="+ String.valueOf(new FileHtml().getFilesRequiredSize()) +";\r\n"
+                + "Set-Cookie: cookieName=cookieValue;\r\n"
                 + "Content-Type: " + getContentType(extension) + "\r\n\r\n";
         return header;
     }
 
-    
-    
     /**
      * O método responseBody() recebe em String o conteúdo do cabeçalho e o arquivo que
      * será anexado a esse cabeçalho, basicamente lê o arquivo e acrescentar no final
@@ -222,19 +306,21 @@ public class MethodGet {
         
         /* Texto contendo o cabeçalho */
         content = content + "\r\n\r\n";
+        FileInputStream fileHtml = new FileInputStream(f);
+        int value;
         
-        String conteudo = " ";
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
-        while ((conteudo = bufferedReader.readLine()) != null) {
-            content = content + conteudo;
+        /* Lendo o arquivo e acrescentando o mesmo no final do cabeçalho*/
+        while ((value = fileHtml.read()) != -1) {
+            content += (char) value;
         }
-        
+        fileHtml.close();
         content = content + "\r\n\r\n";
+        byte[] bytesText = content.getBytes("ISO-8859-1");
         
         /* Enviando para o cliente */
-        out.write(content.getBytes());
-        //out.flush();
-        //out.close();
+        out.write(bytesText);
+        out.flush();
+        out.close();
     }
     
     /**
@@ -251,7 +337,6 @@ public class MethodGet {
         listFiles.add("/html/error404.html");
         listFiles.add("/html/error401.html");
         listFiles.add("/html/directory.html");
-        listFiles.add("/html/config.xml");
         
         /* Verifica se um dos path é igual ao path solicitado pelo cliente */
         for (String s : listFiles) {
@@ -294,8 +379,81 @@ public class MethodGet {
         
         return false;
     }
+
+    /**
+     * O método isDirOrIsFile() verifica se o path que foi requisitado pelo cliente
+     * é um virtual path ou um diretório ou uma página HTML, além do que verifica
+     * a veracidade, ou seja, se o mesmo existe, caso não exista retorna a página com 
+     * o erro 404, senão retorno a página ou o recurso solicitado.
+     * @param path String com a página, virtual path ou diretório vinda da requisição do cliente.
+     * @param buffer BufferedReader com o método, o path e outros itens do cabeçalho vindos da requisição do cliente.
+     * @throws java.io.IOException
+     * @return newPath String retorna o path correto e com a localização exata dá que foi solicitada.
+     */
+    public String isDirOrIsFile(String path, BufferedReader buffer) throws IOException {
+        String newPath = null;
+        String nameDirectory = "null";
+        
+        String query = null;
+        
+        //System.out.println("->"+path);
+        
+        if(path.contains("/?") == true){
+            int startQuery = path.indexOf("?");
+            query = path.substring(startQuery + 1, path.length());
+            path = path.substring(0, startQuery);
+        }
+        
+        /* Verifica se existe o virtual path */
+        if(isVirtualPath(path)){
+            newPath = "/html" + path + ".html";
+            /* Caso exista adicionamos o path em uma lista */
+            new FileHtml().setFilesRequired(newPath, nameDirectory, buffer);
+            /* Geramos o arquivo desse virtual path */
+            new FileHtml().generateVirtualHtml(newPath);
+            virtualPath = true;
+            return newPath;
+        }
+        
+        
+        
+        /* Verificamos se o path que veio é o / se for está referindo ao diretório /html */
+        if (path.equalsIgnoreCase("/")) {
+            newPath = "/html";
+        } else {
+            /* Caso não seja verificamos se o path não é um arquivo */
+            newPath = "/html" + path;
+            File existsFile = new File(newPath);
+            
+            /* Se não existir esse arquivo retorna-se a página com erro 404 */
+            if ((!existsFile.canRead() && !existsFile.isFile() && !existsFile.isDirectory()) || isPathInvisible(newPath)) {
+                newPath = "/html/error404.html";
+            }
+        }
+        
+        /* Se não for um arquivo e nenhum virtual path verificamos se é um diretório */
+        if (new File(newPath).isDirectory()) {
+            if (new ListDirectory().filesDirectory(newPath)) {
+                nameDirectory = newPath;
+                //newPath = newPath + "/directory.html";
+                newPath = newPath + returnQuery(query);
+                
+                isDirectory = true;
+            }
+        }
+        
+        /* Depois de achado adicionamos na lista de arquivos que forem requiridos */
+        if(newPath.contains("infoAdmin.html") == false){
+            System.out.println("**"+newPath);
+            if(newPath.contains("directorySort")){
+                nameDirectory = new FileHtml().getDirectory(newPath);
+            }
+            new FileHtml().setFilesRequired(newPath, nameDirectory, buffer);
+        }
+        return newPath;
+    }
     
-    public String returnQuery(String query){
+     public String returnQuery(String query){
         if(query == null){
             return "/directory.html";
         }
@@ -317,78 +475,6 @@ public class MethodGet {
         }
         return null;
     }
-    
-    /**
-     * O método isDirOrIsFile() verifica se o path que foi requisitado pelo cliente
-     * é um virtual path ou um diretório ou uma página HTML, além do que verifica
-     * a veracidade, ou seja, se o mesmo existe, caso não exista retorna a página com 
-     * o erro 404, senão retorno a página ou o recurso solicitado.
-     * @param path String com a página, virtual path ou diretório vinda da requisição do cliente.
-     * @param buffer BufferedReader com o método, o path e outros itens do cabeçalho vindos da requisição do cliente.
-     * @throws java.io.IOException
-     * @return newPath String retorna o path correto e com a localização exata dá que foi solicitada.
-     */
-    public String isDirOrIsFile(String path, BufferedReader buffer) throws IOException {
-        String newPath = null;
-        String nameDirectory = "null";
-        String query = null;
-        
-        //System.out.println("->"+path);
-        
-        if(path.contains("/?") == true){
-            int startQuery = path.indexOf("?");
-            query = path.substring(startQuery + 1, path.length());
-            path = path.substring(0, startQuery);
-        }
-        
-        /* Verifica se existe o virtual path */
-        if(isVirtualPath(path)){
-            newPath = "/html" + path + ".html";
-            /* Caso exista adicionamos o path em uma lista */
-            new FileHtml().setFilesRequired(newPath, nameDirectory, buffer);
-            /* Geramos o arquivo desse virtual path */
-            new FileHtml().generateVirtualHtml(newPath);
-            virtualPath = true;
-            //System.out.println("new"+newPath);
-            return newPath;
-        }
-        
-        /* Verificamos se o path que veio é o / se for está referindo ao diretório /html */
-        if (path.equalsIgnoreCase("/")) {
-            newPath = "/html";
-        } else {
-            /* Caso não seja verificamos se o path não é um arquivo */
-            newPath = "/html" + path;
-            //System.out.println("aka:" + newPath);
-            File existsFile = new File(newPath);
-            
-            /* Se não existir esse arquivo retorna-se a página com erro 404 */
-            if ((!existsFile.canRead() && !existsFile.isFile() && !existsFile.isDirectory()) || isPathInvisible(newPath)) {
-                newPath = "/html/error404.html";
-            }
-            
-        }
-        
-        /* Se não for um arquivo e nenhum virtual path verificamos se é um diretório */
-        if (new File(newPath).isDirectory()) {
-            if (new ListDirectory().filesDirectory(newPath)) {
-                nameDirectory = newPath;
-                newPath = newPath + returnQuery(query);
-                isDirectory = true;
-            }
-        }
-        
-        /* Depois de achado adicionamos na lista de arquivos que forem requiridos */
-        if(newPath.contains("infoAdmin.html") == false){
-            if(newPath.contains("directorySort")){
-                nameDirectory = new FileHtml().getDirectory(newPath);
-            }
-            //System.out.println("antes do fim: "+newPath);
-            new FileHtml().setFilesRequired(newPath, nameDirectory, buffer);
-        }
-        //System.out.println("fim:" + newPath);
-        return newPath;
-    }
 
     /**
      * O método processGet() verifica se o path que foi requisitado pelo cliente
@@ -401,7 +487,6 @@ public class MethodGet {
      * @throws java.lang.InterruptedException
      */
     public void processGet(String path, BufferedReader buffer) throws IOException, InterruptedException {
-        //System.out.println("ppppppp: " + path);
         isDirectory = false;
         virtualPath = false;
         
@@ -425,7 +510,7 @@ public class MethodGet {
         /* Caso não seja nenhum dos dois é uma página */
         if (errorAuthentication == false) {
             File fileHtml = new File(newPath);
-            String text = responseHeader(fileHtml, newPath, buffer);
+            String text = responseHeader(fileHtml, newPath);
             responseBody(text, fileHtml);
         }
         
