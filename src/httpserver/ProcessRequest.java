@@ -25,6 +25,11 @@ public class ProcessRequest implements Runnable {
     public ProcessRequest(Socket socket) {
         this.s = socket;
     }
+
+    public ProcessRequest() {
+    }
+    
+    
     
     /**
      * O método methodHTTP() verifica qual método veio durante a requisição

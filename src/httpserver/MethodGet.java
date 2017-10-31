@@ -445,6 +445,8 @@ public class MethodGet {
         /* Depois de achado adicionamos na lista de arquivos que forem requiridos */
         if(newPath.contains("infoAdmin.html") == false){
             System.out.println("**"+newPath);
+            newPath = new ProcessRequest().checkPath(newPath);
+            System.out.println("**dps"+newPath);
             if(newPath.contains("directorySort")){
                 nameDirectory = new FileHtml().getDirectory(newPath);
             }
