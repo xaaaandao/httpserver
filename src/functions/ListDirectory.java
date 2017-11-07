@@ -55,7 +55,7 @@ public class ListDirectory {
     public boolean generateDirectoryHtml(String directory, List<Arquivo> listFiles) throws IOException {
         try (BufferedWriter f = new BufferedWriter(new FileWriter(directory+"/directory.html"))) {
             /* Escrevemos no arquivo */
-                    System.out.println("dir:"+directory);
+                    //System.out.println("dir:"+directory);
             f.write(new FileHtml().headerDirectoryHtml(directory, "null"));
             f.write(new FileHtml().filesHtml(directory, listFiles));
             f.write(new FileHtml().footerDirectoryHtml());
