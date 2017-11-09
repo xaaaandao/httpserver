@@ -17,8 +17,8 @@ public class SocketServer extends Thread {
         f.getTimeAndDate();
         
         /* Broadcast */
-        new BroadcastSend().sendMessage();
-        new BroadcastReceive().receiveMessage();
+        //new BroadcastSend().sendMessage();
+        //new BroadcastReceive().receiveMessage();
         
         System.out.println("Server is Running  ");
  

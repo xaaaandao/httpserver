@@ -268,6 +268,32 @@ public class MethodGet {
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         return sdf.format(new Date(f.lastModified()));
     }
+    
+    public String checkCookie(BufferedReader buffer) throws IOException{
+        if(buffer == null){
+            return "acessos=1";
+        }
+        String cookie = null;
+        String request = buffer.readLine();
+        while(!(request = buffer.readLine()).isEmpty()){
+            if(request.contains("Cookie: ")){
+                if(request.equalsIgnoreCase("Cookie: ")){
+                    return "acessos=1";
+                }
+                int lastChar = request.indexOf(";");
+                if(lastChar == -1){
+                    cookie = request.substring(request.indexOf("=")+1, request.length());
+                } else {
+                    cookie = request.substring(request.indexOf("=")+1, lastChar);
+                }
+                int numberOfAcess = Integer.parseInt(cookie);
+                numberOfAcess++;
+                cookie = "acessos=" + Integer.toString(numberOfAcess);
+                return cookie;
+            }
+        }
+        return "acessos=1";
+    }
 
     /**
      * O método responseHeader() recebe o arquivo que irá ser retornado para o cliente
@@ -279,7 +305,7 @@ public class MethodGet {
      * @throws java.io.IOException
      * @return header String com o cabeçalho montado.
      */
-    public String responseHeader(File f, String nameFile) throws IOException {
+    public String responseHeader(File f, String nameFile, BufferedReader buffer) throws IOException {
         /* Pega a extensão do nome do arquivo */
         String extension = nameFile.substring(nameFile.lastIndexOf(".") + 1, nameFile.length());
         
@@ -288,7 +314,7 @@ public class MethodGet {
                 + "Date: " + headerDate() + "\r\n"
                 + "Last-Modified: " + headerLastModified(f) + "\r\n"
                 + "Content-Length: " + f.length() + "\r\n"
-                + "Set-Cookie: cookieName=cookieValue;\r\n"
+                + "Set-Cookie: " + checkCookie(buffer) + "\r\n"
                 + "Content-Type: " + getContentType(extension) + "\r\n\r\n";
         return header;
     }
@@ -512,7 +538,7 @@ public class MethodGet {
         /* Caso não seja nenhum dos dois é uma página */
         if (errorAuthentication == false) {
             File fileHtml = new File(newPath);
-            String text = responseHeader(fileHtml, newPath);
+            String text = responseHeader(fileHtml, newPath, buffer);
             responseBody(text, fileHtml);
         }
         

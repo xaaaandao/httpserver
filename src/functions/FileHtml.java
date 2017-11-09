@@ -102,7 +102,7 @@ public class FileHtml {
         
         /* Imprime os arquivos e diretórios no arquivo HTML presentes naquele determinado diretório */
         for(Arquivo a : listFiles) {
-            if(!a.getName().equalsIgnoreCase("directory.html") && !a.getName().contains("error40") && !a.getName().equalsIgnoreCase("config.xandao") && !a.getName().equalsIgnoreCase("admin.html")){
+            if(!a.getName().equalsIgnoreCase("directory.html") && !a.getName().contains("error40") && !a.getName().equalsIgnoreCase("config.xml") && !a.getName().equalsIgnoreCase("admin.html") && !a.getName().equalsIgnoreCase("directorySortReverseLastModified.html") && !a.getName().equalsIgnoreCase("directorySortLastModified.html") && !a.getName().equalsIgnoreCase("directorySortReverseSize.html") && !a.getName().equalsIgnoreCase("directorySortReverseName.html") && !a.getName().equalsIgnoreCase("directorySortName.html") && !a.getName().equalsIgnoreCase("directorySortSize.html") && !a.getName().equalsIgnoreCase("infoAdmin.html")){
                 String redirect = directory + '/' + a.getName();
                 if(redirect.contains("/html")){
                     redirect = redirect.replace("/html", "");
