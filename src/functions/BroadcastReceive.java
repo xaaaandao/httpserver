@@ -3,8 +3,10 @@ package functions;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class BroadcastReceive {
+public class BroadcastReceive implements Runnable{
 
     /* Sempre verificar a interface */
     public String getMyIP() throws UnknownHostException, SocketException {
@@ -30,17 +32,27 @@ public class BroadcastReceive {
         byte[] buffer = new byte[2048];
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 
-        while (true) {
+       while (true) {
             System.out.println("Waiting packet");
             socket.receive(packet);
+            System.out.println("add"+packet.getAddress());
+            System.out.println("port"+packet.getPort());
             String text = new String(buffer, 0, packet.getLength());
-            if (text.contains("Broadcast ")){
-                /* Se a mensagem que eu recebi for a acima, mando meu endereço ao solicitante */
-                /* Pego o endereço que veio do solicitante, que veio junto com a mensagem */
-                /* Como o ouvinte vai enviar? Se utilizar TCP, UDP ambos são bloqueante */
-                String []packetReceived = text.split(" ");
+            if (text.equalsIgnoreCase("oi")){
+                /* Envia por unicast */
+
             }
+            System.out.println(text);
             packet.setLength(buffer.length);
+       }
+    }
+
+    @Override
+    public void run() {
+        try {
+            receiveMessage();
+        } catch (IOException ex) {
+            Logger.getLogger(BroadcastReceive.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

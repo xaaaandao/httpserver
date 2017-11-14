@@ -17,8 +17,8 @@ public class SocketServer extends Thread {
         f.getTimeAndDate();
         
         /* Broadcast */
-        //new BroadcastSend().sendMessage();
-        //new BroadcastReceive().receiveMessage();
+        new BroadcastSend().sendMessage();
+        new Thread(new BroadcastReceive()).start();
         
         System.out.println("Server is Running  ");
  
@@ -30,11 +30,12 @@ public class SocketServer extends Thread {
         
         /* Esperando as conexões */
         while (true) {
+            
             /* Aceita conexões do cliente */
             Socket socket = mysocket.accept();
             
             /* Roda a thread */
-            new Thread(new ProcessRequest(socket)).run();
+            new Thread(new ProcessRequest(socket)).start();
         }
     }
 }

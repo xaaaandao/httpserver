@@ -50,7 +50,7 @@ public class BroadcastSend {
         int port = 6666;
         InetAddress addressBroadcast = getAddressBroadcast();
         DatagramSocket socket = new DatagramSocket();
-        String message = "Broadcast " + getMyIP().replace("/", "");
+        String message = "sd:" + Integer.toString(port);
         byte []messageBytes = message.getBytes();
         DatagramPacket packet = new DatagramPacket(messageBytes, messageBytes.length, addressBroadcast, port);
         socket.send(packet);
