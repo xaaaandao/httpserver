@@ -2,6 +2,7 @@ package httpserver;
 
 import functions.*;
 import java.net.*;
+import java.util.*;
 
 /**
  * Descrição: pega o horário atual que o servidor começou a executar,
@@ -17,8 +18,10 @@ public class SocketServer extends Thread {
         f.getTimeAndDate();
         
         /* Broadcast */
+        List<String> listOfFriends = new ArrayList<>();
         new BroadcastSend().sendMessage();
         new Thread(new BroadcastReceive()).start();
+        new Thread(new UnicastReceive(listOfFriends)).start();
         
         System.out.println("Server is Running  ");
  

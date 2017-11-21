@@ -3,27 +3,20 @@ package functions;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
-public class BroadcastReceive implements Runnable{
+public class BroadcastReceive implements Runnable {
 
-    /* Sempre verificar a interface */
-    public String getMyIP() throws UnknownHostException, SocketException {
-        String interfaceName = "wlp2s0";
-        String ip = null;
-        NetworkInterface networkInterface = NetworkInterface.getByName(interfaceName);
-        Enumeration<InetAddress> inetAddress = networkInterface.getInetAddresses();
-        InetAddress currentAddress;
-        currentAddress = inetAddress.nextElement();
-        while (inetAddress.hasMoreElements()) {
-            currentAddress = inetAddress.nextElement();
-            if (currentAddress instanceof Inet4Address && !currentAddress.isLoopbackAddress()) {
-                ip = currentAddress.toString();
-                break;
-            }
-        }
-        return ip;
+    public void responseServer(String address, InetAddress addressSend, int port) throws IOException {
+        System.out.println("add para quem to enviando:"+ address);
+        String message = "AD";
+        byte[] confirmMessage = message.getBytes();
+        DatagramSocket confirm = new DatagramSocket();
+        SocketAddress socket = new InetSocketAddress(addressSend, port);
+        DatagramPacket packet = new DatagramPacket(confirmMessage, confirmMessage.length, socket);
+        confirm.send(packet);
+        confirm.close();
+        System.out.println("respondi com:" + message);
     }
 
     public void receiveMessage() throws SocketException, IOException {
@@ -32,19 +25,18 @@ public class BroadcastReceive implements Runnable{
         byte[] buffer = new byte[2048];
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 
-       while (true) {
+        while (true) {
             System.out.println("Waiting packet");
             socket.receive(packet);
-            System.out.println("add"+packet.getAddress());
-            System.out.println("port"+packet.getPort());
             String text = new String(buffer, 0, packet.getLength());
-            if (text.equalsIgnoreCase("oi")){
+            if (text.contains("SD")) {
                 /* Envia por unicast */
-
+                System.out.println("Recebi algo" + text);
+                text = text.replace("SD", "");
+                responseServer(packet.getAddress().toString(), packet.getAddress(), Integer.parseInt(text));
             }
-            System.out.println(text);
             packet.setLength(buffer.length);
-       }
+        }
     }
 
     @Override
