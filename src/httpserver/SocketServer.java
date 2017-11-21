@@ -20,7 +20,7 @@ public class SocketServer extends Thread {
         /* Broadcast */
         List<String> listOfFriends = new ArrayList<>();
         new BroadcastSend().sendMessage();
-        new Thread(new BroadcastReceive()).start();
+        new Thread(new BroadcastReceive(listOfFriends)).start();
         new Thread(new UnicastReceive(listOfFriends)).start();
         
         System.out.println("Server is Running  ");

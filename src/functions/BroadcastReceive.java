@@ -7,6 +7,12 @@ import java.util.logging.*;
 
 public class BroadcastReceive implements Runnable {
 
+    List<String> listOfFriends;
+    
+    public BroadcastReceive(List<String> friends){
+        listOfFriends = friends;
+    }
+    
     public void responseServer(String address, InetAddress addressSend, int port) throws IOException {
         System.out.println("add para quem to enviando:"+ address);
         String message = "AD";
@@ -16,6 +22,8 @@ public class BroadcastReceive implements Runnable {
         DatagramPacket packet = new DatagramPacket(confirmMessage, confirmMessage.length, socket);
         confirm.send(packet);
         confirm.close();
+        new UnicastReceive(listOfFriends).addFriend(address);
+        new UnicastReceive(listOfFriends).printFriend();
         System.out.println("respondi com:" + message);
     }
 
