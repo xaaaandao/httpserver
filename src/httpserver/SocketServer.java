@@ -29,7 +29,7 @@ public class SocketServer extends Thread {
         Process p = Runtime.getRuntime().exec(new String[]{"bash","-c", "rm /html/directory.html && rm /html/admin.html && && rm /html/infoAdmin.html"});
         
         /* Porta 5555 do servidor */
-        ServerSocket mysocket = new ServerSocket(5555);
+        ServerSocket mysocket = new ServerSocket(8080);
         
         /* Esperando as conexões */
         while (true) {
