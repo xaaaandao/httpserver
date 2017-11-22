@@ -25,18 +25,16 @@ public class BroadcastSend {
         return null;
     }
     
-    /* Emitindo um pacote multicast */
-    /* Precisar por numa thread para sempre ficar enviar ou enviado uma vez ok? */
     /* Para verificar pelo terminal usar: netcat -ul portMap */
     /* Para enviar pelo terminal : echo -n "Broadcast 192.168.100.12" | nc -4u -w1 localhost 6666 */
-    public void sendMessage() throws SocketException, IOException{
+    public void sendMessage(int portHttp) throws SocketException, IOException{
         int port = 6666;
         InetAddress addressBroadcast = getAddressBroadcast();
         DatagramSocket socket = new DatagramSocket();
-        String message = "SD1234";
+        String message = "SD1234" + " " + Integer.toString(portHttp);
         byte []messageBytes = message.getBytes();
         DatagramPacket packet = new DatagramPacket(messageBytes, messageBytes.length, addressBroadcast, port);
         socket.send(packet);
-        System.out.println("enviei broadcast:" + message);
+        System.out.println("Enviando broadcast:" + message);
     }
 }

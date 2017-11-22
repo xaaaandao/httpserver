@@ -7,41 +7,33 @@ import java.util.logging.*;
 
 public class BroadcastReceive implements Runnable {
 
-    List<String> listOfFriends;
+    List <Friends> listOfFriends;
+    int myPortHttp;
+    int portUnicast;
     
-    public BroadcastReceive(List<String> friends){
-        listOfFriends = friends;
+    public BroadcastReceive(List <Friends> listOfFriends, int portHttp, int portUnicast){
+        this.listOfFriends = listOfFriends;
+        this.myPortHttp = portHttp;
+        this.portUnicast = portUnicast;
     }
     
-    public void responseServer(String address, InetAddress addressSend, int port) throws IOException {
-        System.out.println("add para quem to enviando:"+ address);
-        String message = "AD";
-        byte[] confirmMessage = message.getBytes();
-        DatagramSocket confirm = new DatagramSocket();
-        SocketAddress socket = new InetSocketAddress(addressSend, port);
-        DatagramPacket packet = new DatagramPacket(confirmMessage, confirmMessage.length, socket);
-        confirm.send(packet);
-        confirm.close();
-        new UnicastReceive(listOfFriends).addFriend(address);
-        new UnicastReceive(listOfFriends).printFriend();
-        System.out.println("respondi com:" + message);
-    }
-
     public void receiveMessage() throws SocketException, IOException {
         int port = 6666;
         DatagramSocket socket = new DatagramSocket(port);
         byte[] buffer = new byte[2048];
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 
-        while (true) {
-            System.out.println("Waiting packet");
+        while (true) { 
+            System.out.println("Waiting packet multicast");
             socket.receive(packet);
             String text = new String(buffer, 0, packet.getLength());
             if (text.contains("SD")) {
-                /* Envia por unicast */
-                System.out.println("Recebi algo" + text);
+                System.out.println("Recebi pacote em multicast, a mensagem: " + text);
                 text = text.replace("SD", "");
-                responseServer(packet.getAddress().toString(), packet.getAddress(), Integer.parseInt(text));
+                String []ports = text.split(" ");
+                UnicastSend us = new UnicastSend();
+                this.portUnicast = Integer.parseInt(ports[0]);
+                us.sendMessage(listOfFriends, packet.getAddress(), Integer.parseInt(ports[0]), Integer.parseInt(ports[1]), myPortHttp);
             }
             packet.setLength(buffer.length);
         }
