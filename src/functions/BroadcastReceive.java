@@ -9,12 +9,10 @@ public class BroadcastReceive implements Runnable {
 
     List <Friends> listOfFriends;
     int myPortHttp;
-    int portUnicast;
     
-    public BroadcastReceive(List <Friends> listOfFriends, int portHttp, int portUnicast){
+    public BroadcastReceive(List <Friends> listOfFriends, int portHttp){
         this.listOfFriends = listOfFriends;
         this.myPortHttp = portHttp;
-        this.portUnicast = portUnicast;
     }
     
     public void receiveMessage() throws SocketException, IOException {
@@ -32,7 +30,6 @@ public class BroadcastReceive implements Runnable {
                 text = text.replace("SD", "");
                 String []ports = text.split(" ");
                 UnicastSend us = new UnicastSend();
-                this.portUnicast = Integer.parseInt(ports[0]);
                 us.sendMessage(listOfFriends, packet.getAddress(), Integer.parseInt(ports[0]), Integer.parseInt(ports[1]), myPortHttp);
             }
             packet.setLength(buffer.length);

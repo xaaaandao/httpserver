@@ -13,7 +13,6 @@ import java.util.*;
 public class SocketServer extends Thread {
     public static void main(String argv[]) throws Exception {
         int portHttp = 5555;
-        int portUnicast = -1;
         
         /* Pega o horário atual que o servidor começou a executar */
         FileHtml f = new FileHtml();
@@ -22,8 +21,8 @@ public class SocketServer extends Thread {
         /* Broadcast */
         List<Friends> listOfFriends = new ArrayList<>();
         new BroadcastSend().sendMessage(portHttp);
-        new Thread(new BroadcastReceive(listOfFriends, portHttp, portUnicast)).start();
-        new Thread(new UnicastReceive(listOfFriends, portUnicast)).start();
+        new Thread(new BroadcastReceive(listOfFriends, portHttp)).start();
+        new Thread(new UnicastReceive(listOfFriends)).start();
         
         System.out.println("Server is running...");
  

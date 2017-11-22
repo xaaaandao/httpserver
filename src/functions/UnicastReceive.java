@@ -17,15 +17,12 @@ import java.util.*;
 public class UnicastReceive implements Runnable {
 
     List<Friends> listOfFriends;
-    int portUnicast;
     
-    public UnicastReceive(List<Friends> listOfFriends, int portUnicast) {
+    public UnicastReceive(List<Friends> listOfFriends) {
         this.listOfFriends = listOfFriends;
-        this.portUnicast = portUnicast;
     }
 
     public void receiveMessage() throws SocketException, IOException {
-        System.out.println("port:"+portUnicast);
         int port = 1234;
         int sizeBuffer = 2048;
         DatagramSocket socket = new DatagramSocket(port);
