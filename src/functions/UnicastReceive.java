@@ -16,31 +16,49 @@ import java.util.*;
  */
 public class UnicastReceive implements Runnable {
 
-    List<Friends> listOfFriends;
+    List<String> listOfFriends;
     
-    public UnicastReceive(List<Friends> listOfFriends) {
-        this.listOfFriends = listOfFriends;
+    public UnicastReceive(List<String> friends){
+        listOfFriends = friends;
+    }
+    
+    public boolean existFriend(String address){
+        for(String add : listOfFriends){
+            if(add.equalsIgnoreCase(address)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public void addFriend(String address){
+        if(!existFriend(address)){
+            listOfFriends.add(address);
+        }
     }
 
+    public void printFriend(){
+        for(String add : listOfFriends){
+            System.out.println("Friend: "+add);
+        }
+        System.out.println("===========================");
+    }
+    
     public void receiveMessage() throws SocketException, IOException {
         int port = 1234;
-        int sizeBuffer = 2048;
         DatagramSocket socket = new DatagramSocket(port);
-        byte[] buffer = new byte[sizeBuffer];
+        byte[] buffer = new byte[2048];
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 
         while (true) {
-            System.out.println("Waiting packet unicasting");
+            System.out.println("Waiting packet a unicast");
             socket.receive(packet);
             String text = new String(buffer, 0, packet.getLength());
-            if (text.contains("AD")) {
-                text = text.replace("AD", "");
-                System.out.println("Recebi a confirmação" + text);
-                Friends f = new Friends(packet.getAddress().toString(), Integer.parseInt(text));
-                OperationsFriends opFriends = new OperationsFriends();
-                opFriends.addFriend(listOfFriends, f);
-                opFriends.printFriend(listOfFriends);
-                System.out.println("add:" + packet.getAddress().toString());
+            if (text.equalsIgnoreCase("AD")) {
+                System.out.println("Recebi a confirmação por unicast "+text);
+                addFriend(packet.getAddress().toString());
+                printFriend();
+                System.out.println("Endereço de quem eu recebi:"+packet.getAddress().toString());
             }
             packet.setLength(buffer.length);
         }

@@ -12,25 +12,24 @@ import java.util.*;
 
 public class SocketServer extends Thread {
     public static void main(String argv[]) throws Exception {
-        int portHttp = 5555;
         
         /* Pega o horário atual que o servidor começou a executar */
         FileHtml f = new FileHtml();
         f.getTimeAndDate();
         
         /* Broadcast */
-        List<Friends> listOfFriends = new ArrayList<>();
-        new BroadcastSend().sendMessage(portHttp);
-        new Thread(new BroadcastReceive(listOfFriends, portHttp)).start();
+        List<String> listOfFriends = new ArrayList<>();
+        new BroadcastSend().sendMessage();
+        new Thread(new BroadcastReceive(listOfFriends)).start();
         new Thread(new UnicastReceive(listOfFriends)).start();
         
-        System.out.println("Server is running...");
+        System.out.println("Server is Running  ");
  
         /* Apaga o arquivo directory.html e admin.html, caso alguém tente acessar de primeira não terá */
         Process p = Runtime.getRuntime().exec(new String[]{"bash","-c", "rm /html/directory.html && rm /html/admin.html && && rm /html/infoAdmin.html"});
         
         /* Porta 5555 do servidor */
-        ServerSocket mysocket = new ServerSocket(portHttp);
+        ServerSocket mysocket = new ServerSocket(5555);
         
         /* Esperando as conexões */
         while (true) {

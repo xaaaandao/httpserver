@@ -109,7 +109,7 @@ public class FileHtml {
                 }
                 content = content + "<tr>\n" + "<td> <a href='" + redirect + "'>" + a.getName() + "</a> </td>\n";
                 content = content + "<td> <a>" + a.getLastModified() + "</a> </td>\n";
-                content = content + "<td> <a>" + a.getSize() + "</a> Mb</td>\n" + "</tr>\n";
+                content = content + "<td> <a>" + a.getSize() + "</a> Mb </td>\n" + "</tr>\n";
             }
         }
         return content;
