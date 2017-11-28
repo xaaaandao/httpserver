@@ -3,6 +3,7 @@ package httpserver;
 import java.io.*;
 import java.net.*;
 import functions.*;
+import java.util.*;
 import java.util.logging.*;
 
 
@@ -158,6 +159,7 @@ public class ProcessRequest implements Runnable {
     public void run() {
         FileHtml f = new FileHtml();
         try {
+            
             /* Recebe o que foi enviado pelo cliente */
             input = s.getInputStream();
             output = s.getOutputStream();

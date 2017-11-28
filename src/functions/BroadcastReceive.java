@@ -7,23 +7,31 @@ import java.util.logging.*;
 
 public class BroadcastReceive implements Runnable {
 
-    List<String> listOfFriends;
+    List<Friends> listOfFriends;
+    int portHttp;
     
-    public BroadcastReceive(List<String> friends){
+    public BroadcastReceive(List<Friends> friends, int port){
         listOfFriends = friends;
+        portHttp = port;
     }
     
-    public void responseServer(String address, InetAddress addressSend, int port) throws IOException {
-        System.out.println("Endereço para quem to enviando: "+ address);
-        String message = "AD";
+    public void responseServer(InetAddress address, int port, int portFriend) throws IOException {
+        System.out.println("Endereço para quem to enviando: "+ address.toString());
+        String message = "AD" + Integer.toString(portHttp);
         byte[] confirmMessage = message.getBytes();
         DatagramSocket confirm = new DatagramSocket();
-        SocketAddress socket = new InetSocketAddress(addressSend, port);
+        SocketAddress socket = new InetSocketAddress(address, port);
         DatagramPacket packet = new DatagramPacket(confirmMessage, confirmMessage.length, socket);
         confirm.send(packet);
         confirm.close();
-        new UnicastReceive(listOfFriends).addFriend(address);
-        new UnicastReceive(listOfFriends).printFriend();
+        Friends f = new Friends(address.toString(), portFriend);
+        new Friends().addFriend(listOfFriends, f);
+        if(listOfFriends.size() == 0){
+            System.out.println("lista vazia!");
+        }
+        new Friends().printList(listOfFriends);
+        //new UnicastReceive(listOfFriends).addFriend(address);
+        //new UnicastReceive(listOfFriends).printFriend();
         System.out.println("Respondi por unicast com a seguinte mensagem:" + message);
     }
 
@@ -41,7 +49,8 @@ public class BroadcastReceive implements Runnable {
                 /* Envia por unicast */
                 System.out.println("Recebi por broadcast: " + text);
                 text = text.replace("SD", "");
-                responseServer(packet.getAddress().toString(), packet.getAddress(), Integer.parseInt(text));
+                String[] ports = text.split(" ");
+                responseServer(packet.getAddress(), Integer.parseInt(ports[0]), Integer.parseInt(ports[1]));
             }
             packet.setLength(buffer.length);
         }

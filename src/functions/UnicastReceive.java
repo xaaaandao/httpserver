@@ -16,32 +16,10 @@ import java.util.*;
  */
 public class UnicastReceive implements Runnable {
 
-    List<String> listOfFriends;
+    List<Friends> listOfFriends;
     
-    public UnicastReceive(List<String> friends){
+    public UnicastReceive(List<Friends> friends){
         listOfFriends = friends;
-    }
-    
-    public boolean existFriend(String address){
-        for(String add : listOfFriends){
-            if(add.equalsIgnoreCase(address)){
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    public void addFriend(String address){
-        if(!existFriend(address)){
-            listOfFriends.add(address);
-        }
-    }
-
-    public void printFriend(){
-        for(String add : listOfFriends){
-            System.out.println("Friend: "+add);
-        }
-        System.out.println("===========================");
     }
     
     public void receiveMessage() throws SocketException, IOException {
@@ -54,10 +32,12 @@ public class UnicastReceive implements Runnable {
             System.out.println("Waiting packet a unicast");
             socket.receive(packet);
             String text = new String(buffer, 0, packet.getLength());
-            if (text.equalsIgnoreCase("AD")) {
+            if (text.contains("AD")) {
                 System.out.println("Recebi a confirmação por unicast "+text);
-                addFriend(packet.getAddress().toString());
-                printFriend();
+                text = text.replace("AD", "");
+                Friends f = new Friends(packet.getAddress().toString(), Integer.parseInt(text));
+                new Friends().addFriend(listOfFriends, f);
+                new Friends().printList(listOfFriends);
                 System.out.println("Endereço de quem eu recebi:"+packet.getAddress().toString());
             }
             packet.setLength(buffer.length);
