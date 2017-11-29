@@ -18,12 +18,14 @@ public class ProcessRequest implements Runnable {
     private Socket s;
     InputStream input;
     OutputStream output;
+    List<Friends> listOfFriends;
     
     /**
      * O método Worker() é apenas um construtor.
      * @param socket socket da conexão aceita pelo servidor.
      */
-    public ProcessRequest(Socket socket) {
+    public ProcessRequest(List<Friends> list, Socket socket) {
+        this.listOfFriends = list;
         this.s = socket;
     }
 
@@ -46,7 +48,7 @@ public class ProcessRequest implements Runnable {
             case "OPTIONS":
         	break;
             case "GET":
-                new MethodGet(this.s).processGet(path, buffer);
+                new MethodGet(this.s).processGet(path, buffer, this.listOfFriends);
         	break;
             case "HEAD":
             	break;

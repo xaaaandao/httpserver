@@ -41,7 +41,7 @@ public class SocketServer extends Thread {
             Socket socket = mysocket.accept();
             
             /* Roda a thread */
-            new Thread(new ProcessRequest(socket)).start();
+            new Thread(new ProcessRequest(listOfFriends, socket)).start();
         }
     }
 }

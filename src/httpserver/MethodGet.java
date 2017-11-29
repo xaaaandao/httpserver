@@ -504,6 +504,10 @@ public class MethodGet {
         return null;
     }
 
+    public void checkOtherServer(List<Friends> listOfFriends){
+        new Friends().printList(listOfFriends);
+    }
+     
     /**
      * O método processGet() verifica se o path que foi requisitado pelo cliente
      * é um virtual path ou é um diretório, caso seja verifica se o buffer
@@ -514,7 +518,9 @@ public class MethodGet {
      * @throws java.io.IOException
      * @throws java.lang.InterruptedException
      */
-    public void processGet(String path, BufferedReader buffer) throws IOException, InterruptedException {
+    public void processGet(String path, BufferedReader buffer, List<Friends> listOfFriends) throws IOException, InterruptedException {
+        //new Friends().printList(listOfFriends);
+
         isDirectory = false;
         virtualPath = false;
         
@@ -537,6 +543,9 @@ public class MethodGet {
         
         /* Caso não seja nenhum dos dois é uma página */
         if (errorAuthentication == false) {
+            if(newPath.contains("error404")){
+                checkOtherServer(listOfFriends);
+            }
             File fileHtml = new File(newPath);
             String text = responseHeader(fileHtml, newPath, buffer);
             responseBody(text, fileHtml);
