@@ -549,12 +549,22 @@ public class MethodGet {
             System.out.println("text:"+text);
             String result = "H" + text;
             System.out.println("final"+result);
-            
-            OutputStream outA = s.getOutputStream();
-            outA.write(result.getBytes());
 
-            //out.write(bytesText);
-            //out.write(result.getBytes());
+            //Se a requisição vim algo null
+            if(request == null || socket == null){
+                socket.close();
+                Friends fr = new Friends();
+                int index = fr.getFriend(listOfFriends, f);
+                if(index > -1){
+                    listOfFriends.remove(index);
+                    System.out.println("removeu");
+                }
+            //Se vier algo manda para o cliente
+            } else {
+                OutputStream outA = s.getOutputStream();
+                outA.write(result.getBytes());
+            }
+            
         }
     }
 

@@ -49,10 +49,23 @@ public class Friends {
     }
     
     public void printList(List<Friends> listOfFriends){
+        if(listOfFriends.size() == 0){
+            System.out.println("Lista vazia!");
+            return;
+        }
         for(Friends friends : listOfFriends){
             System.out.println("Friends IP: " + friends.getIpAddress());
             System.out.println("Friends port HTTP: " + friends.getPortHttp());
         }
+    }
+    
+    public int getFriend(List<Friends> listOfFriends, Friends f){
+        for(int i = 0; i < listOfFriends.size(); i++){
+            if(listOfFriends.get(i).getIpAddress().equalsIgnoreCase(f.getIpAddress())){
+                return i;
+            }
+        }
+        return -1;
     }
     
 }
