@@ -549,6 +549,10 @@ public class MethodGet {
             System.out.println("text:"+text);
             String result = "H" + text;
             System.out.println("final"+result);
+            
+            OutputStream outA = s.getOutputStream();
+            outA.write(result.getBytes());
+
             //out.write(bytesText);
             //out.write(result.getBytes());
         }
