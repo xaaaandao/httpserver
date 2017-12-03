@@ -75,7 +75,7 @@ public class ProcessRequest implements Runnable {
      */
     public String checkPath(String path){
         StringBuilder pathCheck = new StringBuilder(path);
-        for(int i = 0; i < path.length(); i++){
+        for(int i = 0; i < pathCheck.length(); i++){
             /* Se na posição atual e na seguinte tiver elimina o que tem na posição atual */
             if(path.charAt(i) == '/' && path.charAt(i + 1) == '/'){
                 pathCheck.deleteCharAt(i);
@@ -144,6 +144,7 @@ public class ProcessRequest implements Runnable {
         } else if(request != null){
             String ss[] = request.split(" ");
             
+            //System.out.println("->"+ss[1]);
             /* Elimina o caractere '/' repetido */
             if(!ss[1].equalsIgnoreCase("/")){
                 ss[1] = checkPath(ss[1]);

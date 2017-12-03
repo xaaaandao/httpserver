@@ -282,6 +282,9 @@ public class MethodGet {
         }
         String cookie = null;
         String request = buffer.readLine();
+        if(request == null){
+            return "acessos=1";
+        }
         while (!(request = buffer.readLine()).isEmpty()) {
             if (request.contains("Cookie: ")) {
                 if (request.equalsIgnoreCase("Cookie: ")) {
