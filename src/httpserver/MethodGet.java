@@ -560,9 +560,10 @@ public class MethodGet {
                     System.out.println("removeu");
                 }
             //Se vier algo manda para o cliente
-            } else {
+            } else if(!request.contains("404")){
                 OutputStream outA = s.getOutputStream();
                 outA.write(result.getBytes());
+                return;
             }
             
         }
