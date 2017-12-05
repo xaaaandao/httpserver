@@ -27,9 +27,11 @@ public class FileHtml {
      */
     public String headerDirectoryHtml(String directory, String sortFiles) {
         String head = "<!DOCTYPE html>\n"
+                + "<link href='https://fonts.googleapis.com/css?family=Annie Use Your Telescope' rel='stylesheet'>\n"
                 + "<html>\n"
                 + "<head>\n"
                 + "<style>\n"
+                + "body { font-family: 'Annie Use Your Telescope'; font-size: 20px; }"
                 + "table{ width: 50%; }\n"
                 + "td, td{ text-align: center; padding: 8px; }\n"
                 + "</style>\n"
@@ -530,7 +532,7 @@ public class FileHtml {
                 + "        </div>\n"
                 + "    </body>\n"
                 + "</html>"
-                + "</div>";
+                + "</>";
         return content;
     }
 
