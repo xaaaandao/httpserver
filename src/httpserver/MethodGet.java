@@ -282,7 +282,7 @@ public class MethodGet {
         }
         String cookie = null;
         String request = buffer.readLine();
-        if(request == null){
+        if (request == null) {
             return "acessos=1";
         }
         while (!(request = buffer.readLine()).isEmpty()) {
@@ -530,7 +530,33 @@ public class MethodGet {
         return null;
     }
 
-    public void checkOtherServer(List<Friends> listOfFriends, String path) throws UnsupportedEncodingException, IOException {
+    public boolean checkClient(String ip) {
+
+        try {
+            String command = "ping " + ip;
+            Process p = Runtime.getRuntime().exec(command);
+            BufferedReader inputStream = new BufferedReader(
+                    new InputStreamReader(p.getInputStream()));
+
+            String s = "";
+            // reading output stream of the command
+            while ((s = inputStream.readLine()) != null) {
+                if(s.contains("from " + ip)){
+                    if(s.contains("Destination Host Unreachable")){
+                        return false;
+                    }
+                    return true;
+                }
+                System.out.println(s);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean checkOtherServer(List<Friends> listOfFriends, String path) throws UnsupportedEncodingException, IOException {
         /* Gera a lista aleatória */
         long seed = System.nanoTime();
         Collections.shuffle(listOfFriends, new Random(seed));
@@ -549,27 +575,32 @@ public class MethodGet {
             System.out.println("value:" + value);
             //System.out.println("nada" + getStringFromInputStream(in));
             String text = getStringFromInputStream(in);
-            System.out.println("text:"+text);
+            System.out.println("text:" + text);
             String result = "H" + text;
-            System.out.println("final"+result);
+            System.out.println("final" + result);
 
             //Se a requisição vim algo null
-            if(request == null || socket == null){
-                socket.close();
+            if (!checkClient(ip)) {
+                //socket.close();
                 Friends fr = new Friends();
                 int index = fr.getFriend(listOfFriends, f);
-                if(index > -1){
+                if (index > -1) {
                     listOfFriends.remove(index);
                     System.out.println("removeu");
                 }
-            //Se vier algo manda para o cliente
-            } else if(!request.contains("404")){
+                if (listOfFriends.isEmpty()) {
+                    return false;
+                }
+                //Se vier algo manda para o cliente
+            }
+            if (!request.contains("404")) {
                 OutputStream outA = s.getOutputStream();
                 outA.write(result.getBytes());
-                return;
+                return true;
             }
-            
+
         }
+        return false;
     }
 
     public String getStringFromInputStream(InputStream is) throws IOException {
@@ -621,8 +652,13 @@ public class MethodGet {
         /* Caso não seja nenhum dos dois é uma página */
         if (errorAuthentication == false) {
             if (newPath.contains("error404")) {
-                checkOtherServer(listOfFriends, path);
+                if (!checkOtherServer(listOfFriends, path)) {
+                    File fileHtml = new File(newPath);
+                    String text = responseHeader(fileHtml, newPath, buffer);
+                    responseBody(text, fileHtml);
+                }
             } else {
+                System.out.println("np"+newPath);
                 File fileHtml = new File(newPath);
                 String text = responseHeader(fileHtml, newPath, buffer);
                 responseBody(text, fileHtml);
