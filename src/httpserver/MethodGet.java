@@ -531,6 +531,9 @@ public class MethodGet {
     }
 
     public void checkOtherServer(List<Friends> listOfFriends, String path) throws UnsupportedEncodingException, IOException {
+        /* Gera a lista aleatória */
+        long seed = System.nanoTime();
+        Collections.shuffle(listOfFriends, new Random(seed));
         for (Friends f : listOfFriends) {
             String ip = f.getIpAddress().replace("/", "");
             Socket socket = new Socket(ip, f.getPortHttp());
