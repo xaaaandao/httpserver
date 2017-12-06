@@ -13,7 +13,7 @@ import java.util.*;
 public class SocketServer extends Thread {
     public static void main(String argv[]) throws Exception {
         
-        int portHttp = 5555;
+        int portHttp = 5557;
         
         /* Pega o horário atual que o servidor começou a executar */
         FileHtml f = new FileHtml();

@@ -74,6 +74,7 @@ public class BroadcastReceive implements Runnable {
                 /* Envia por unicast */
                 System.out.println("Recebi por broadcast: " + text);
                 text = text.replace("SD", "");
+                text = text.replace("\n", "");
                 String[] ports = text.split(" ");
                 responseServer(packet.getAddress(), Integer.parseInt(ports[0]), Integer.parseInt(ports[1]));
             }

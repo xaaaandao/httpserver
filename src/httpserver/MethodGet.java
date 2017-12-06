@@ -598,10 +598,14 @@ public class MethodGet {
      * @return true ou false, true caso esteja presente e false caso contrário.
      */
     public boolean checkOtherServer(List<Friends> listOfFriends, String path) throws UnsupportedEncodingException, IOException {
+        if(listOfFriends.isEmpty()){
+            return false;
+        }
         /* Gera a lista aleatória */
         long seed = System.nanoTime();
         Collections.shuffle(listOfFriends, new Random(seed));
         for (Friends f : listOfFriends) {
+            System.out.println("aki caralho");
             String ip = f.getIpAddress().replace("/", "");
             Socket socket = new Socket(ip, f.getPortHttp());
             OutputStream out = socket.getOutputStream();
@@ -611,18 +615,32 @@ public class MethodGet {
             request = request + "\r\n\r\n";
             byte[] bytesText = request.getBytes("ISO-8859-1");
             out.write(bytesText);
+            
             System.out.println("to aqui porra");
-            int value = in.read();
-            System.out.println("value:" + value);
+            int nRead = in.read();
+            System.out.println("aki caralho");
+            byte[] data = new byte[16384];
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            while ((nRead = in.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+            buffer.flush();
+            String msg = data.toString();
+            System.out.println(msg);
+            //OutputStream la = s.getOutputStream();
+            //la.write(data);
+            //out.
+            //int value = in.read();
+
+            //System.out.println("value:" + value);
             //System.out.println("nada" + getStringFromInputStream(in));
-            String text = getStringFromInputStream(in);
+            /*String text = getStringFromInputStream(in);
             System.out.println("text:" + text);
             String result = "H" + text;
-            System.out.println("final" + result);
-
+            System.out.println("final" + result);*/
             //Se a requisição vim algo null
             if (!checkClient(ip)) {
-                //socket.close();
+                //soc,ket.close();
                 Friends fr = new Friends();
                 int index = fr.getFriend(listOfFriends, f);
                 if (index > -1) {
@@ -634,9 +652,9 @@ public class MethodGet {
                 }
                 //Se vier algo manda para o cliente
             }
-            if (!request.contains("404")) {
+            if (!msg.contains("404")) {
                 OutputStream outA = s.getOutputStream();
-                outA.write(result.getBytes());
+                outA.write(data);
                 return true;
             }
 
