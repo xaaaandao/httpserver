@@ -5,8 +5,8 @@ import java.net.*;
 import java.util.*;
 
 /**
- * Descrição: pega o horário atual que o servidor começou a executar,
- * apaga o arquivo que lista os diretórios caso já exista e fica aguardando conexões.
+ * Descrição: pega o horário atual que o servidor começou a executar, apaga o
+ * arquivo que lista os diretórios caso já exista e fica aguardando conexões.
  * Autor: Alexandre Yuji Kajihara
  */
 

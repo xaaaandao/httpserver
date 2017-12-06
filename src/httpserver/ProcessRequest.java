@@ -21,7 +21,8 @@ public class ProcessRequest implements Runnable {
     List<Friends> listOfFriends;
     
     /**
-     * O método Worker() é apenas um construtor.
+     * O ProcessRequest(List<Friends> list, Socket socket) é apenas um construtor.
+     * @param list lista com os endereços e as porta dos servidores HTTP dos outros servidores.
      * @param socket socket da conexão aceita pelo servidor.
      */
     public ProcessRequest(List<Friends> list, Socket socket) {
@@ -29,19 +30,20 @@ public class ProcessRequest implements Runnable {
         this.s = socket;
     }
 
+    /**
+     * O ProcessRequest() é apenas um construtor.
+      */
     public ProcessRequest() {
     }
-    
-    
-    
     /**
-     * O método methodHTTP() verifica qual método veio durante a requisição
+     * O método methodHTTP(String headerHttpMethod, String path, BufferedReader buffer) verifica qual método veio durante a requisição
      * feita pelo cliente, e chama um método de acordo com o método que veio durante a requisição.
      * @param headerHttpMethod String vinda da requisição do cliente com o método solicitado.
      * @param path String vinda da requisição do cliente com o path solicitado.
      * @param buffer BufferedReader buffer que veio durante a requisição do cliente.
      * @throws java.io.IOException
      * @throws java.lang.InterruptedException
+     * @return retorna void, ou seja, nada.
      */
     public void methodHTTP(String headerHttpMethod, String path, BufferedReader buffer) throws IOException, InterruptedException {
     	switch(headerHttpMethod){
@@ -67,7 +69,7 @@ public class ProcessRequest implements Runnable {
     }
     
     /**
-     * O método checkPath() percorre o path da requisição enviada pelo cliente
+     * O método checkPath(String path) percorre o path da requisição enviada pelo cliente
      * caso encontre várias ocorrências do caractere '/' remove elas e retorna
      * a string se múltiplas ocorrências do caractere '/'.
      * @param path String vinda da requisição do cliente.
@@ -100,7 +102,7 @@ public class ProcessRequest implements Runnable {
     }
     
     /**
-     * O método prepareToRun() recebe como parâmetro a requisição enviada pelo cliente,
+     * O método prepareToRun(InputStream input) recebe como parâmetro a requisição enviada pelo cliente,
      * verifica no cabeçalho o método (GET, POST, etc) e o caminho (podendo ser um arquivo
      * HTML ou um diretório), além disso verifica se o buffer veio vazio ou não, caso 
      * não tenha verifica se a lista de requisições é maior que zero, ou seja, se já foi feita
@@ -110,7 +112,8 @@ public class ProcessRequest implements Runnable {
      * @param input contém o cabeçalho enviado pelo cliente ao servidor.
      * @throws java.io.IOException
      * @throws java.lang.InterruptedException
-     */
+     * @return retorna void, ou seja, nada.
+    */
     public void prepareToRun(InputStream input) throws IOException, InterruptedException {
         /* Armazena o cabeçalho em uma String */
         BufferedReader buffer = new BufferedReader(new InputStreamReader(input));
@@ -158,6 +161,7 @@ public class ProcessRequest implements Runnable {
      /**
      * O método run() recebe a requisição que foi enviado pelo cliente 
      * e chama o método prepareToRun() que irá processar o que lhe foi enviado.
+     * @return retorna void, ou seja, nada.
      */
     public void run() {
         FileHtml f = new FileHtml();

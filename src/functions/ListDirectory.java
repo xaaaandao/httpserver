@@ -6,19 +6,21 @@ import java.util.*;
 
 /**
  * Descrição: armazena o nome, o tamanho e a última modificação de cada arquivo
- * ou diretório em uma lista do diretório que foi solicitado pelo cliente, e gera um
- * arquivo HTML que exiba o conteúdo desse diretório.
- * Autor: Alexandre Yuji Kajihara
+ * ou diretório em uma lista do diretório que foi solicitado pelo cliente, e
+ * gera um arquivo HTML que exiba o conteúdo desse diretório. Autor: Alexandre
+ * Yuji Kajihara
  */
-
 public class ListDirectory {
 
     /**
-     * O método getParentDirectory() dado um diretório verifica qual é seu diretório pai.
-     * @param directory String com o nome do diretório que será procurado seu diretório pai.
+     * O método getParentDirectory(String directory) dado um diretório verifica
+     * qual é seu diretório pai.
+     *
+     * @param directory String com o nome do diretório que será procurado seu
+     * diretório pai.
      * @return parentDirectory, String com o diretório pai.
      */
-    public String getParentDirectory(String directory){
+    public String getParentDirectory(String directory) {
         /*String parentDirectory = directory;
         parentDirectory = parentDirectory.replace("/html", "");
         parentDirectory = parentDirectory.substring(0, parentDirectory.lastIndexOf("/"));
@@ -26,36 +28,39 @@ public class ListDirectory {
             return "/";
         }
         return parentDirectory;*/
-                StringBuilder removeCharacter = new StringBuilder(directory);
-        System.out.println("dir111"+directory);
-        while(removeCharacter.charAt(removeCharacter.length() - 1) == '/'){
+        StringBuilder removeCharacter = new StringBuilder(directory);
+        System.out.println("dir111" + directory);
+        while (removeCharacter.charAt(removeCharacter.length() - 1) == '/') {
             removeCharacter = removeCharacter.deleteCharAt(removeCharacter.length() - 1);
         }
         String parentDirectory = removeCharacter.toString();
         int lastOccurence = parentDirectory.lastIndexOf("/");
         parentDirectory = parentDirectory.substring(0, lastOccurence);
         parentDirectory = parentDirectory.replace("/html", "");
-        System.out.println("size:" +parentDirectory.length());
-        System.out.println("par:" +parentDirectory);
-        if(parentDirectory.length() == 0){
+        System.out.println("size:" + parentDirectory.length());
+        System.out.println("par:" + parentDirectory);
+        if (parentDirectory.length() == 0) {
             return "/";
         }
         return parentDirectory;
 
     }
-    
+
     /**
-     * O método generateDirectoryHtml() produz o arquivo HTML que contém todos
-     * os conteúdos presentes naquele diretório.
+     * O método generateDirectoryHtml(String directory, List<Arquivo> listFiles)
+     * produz o arquivo HTML que contém todos os conteúdos presentes naquele
+     * diretório.
+     *
      * @param directory String com o nome do diretório e o seu conteúdo.
      * @param listFiles Lista com os arquivos presentes naquele diretório.
-     * @return true ou false, booleano true caso consiga gerar um HTML e false caso não consiga.
+     * @return true ou false, booleano true caso consiga gerar um HTML e false
+     * caso não consiga.
      * @throws java.io.IOException
      */
     public boolean generateDirectoryHtml(String directory, List<Arquivo> listFiles) throws IOException {
-        try (BufferedWriter f = new BufferedWriter(new FileWriter(directory+"/directory.html"))) {
+        try (BufferedWriter f = new BufferedWriter(new FileWriter(directory + "/directory.html"))) {
             /* Escrevemos no arquivo */
-                    //System.out.println("dir:"+directory);
+            //System.out.println("dir:"+directory);
             f.write(new FileHtml().headerDirectoryHtml(directory, "null"));
             f.write(new FileHtml().filesHtml(directory, listFiles));
             f.write(new FileHtml().footerDirectoryHtml());
@@ -66,13 +71,16 @@ public class ListDirectory {
         }
         return false;
     }
-    
-      /**
-     * O método generateDirectorySortReverseName() produz o arquivo HTML que contém todos
-     * os conteúdos presentes naquele diretório, na ordem alfabética inversa em relação aos nomes.
+
+    /**
+     * O método generateDirectorySortReverseName(String directory, List<Arquivo>
+     * listFiles) produz o arquivo HTML que contém todos os conteúdos presentes
+     * naquele diretório, na ordem alfabética inversa em relação aos nomes.
+     *
      * @param directory String com o nome do diretório e o seu conteúdo.
      * @param listFiles Lista com os arquivos presentes naquele diretório.
-     * @return true ou false, booleano true caso consiga gerar um HTML e false caso não consiga.
+     * @return true ou false, booleano true caso consiga gerar um HTML e false
+     * caso não consiga.
      * @throws java.io.IOException
      */
     public boolean generateDirectorySortReverseName(String directory, List<Arquivo> listFiles) throws IOException {
@@ -89,13 +97,17 @@ public class ListDirectory {
         }
         return false;
     }
-    
+
     /**
-     * O método generateDirectorySortReverseLastModified() produz o arquivo HTML que contém todos
-     * os conteúdos presentes naquele diretório, na ordem inversa em relação a última modificação.
+     * O método generateDirectorySortReverseLastModified(String directory,
+     * List<Arquivo> listFiles) produz o arquivo HTML que contém todos os
+     * conteúdos presentes naquele diretório, na ordem inversa em relação a
+     * última modificação.
+     *
      * @param directory String com o nome do diretório e o seu conteúdo.
      * @param listFiles Lista com os arquivos presentes naquele diretório.
-     * @return true ou false, booleano true caso consiga gerar um HTML e false caso não consiga.
+     * @return true ou false, booleano true caso consiga gerar um HTML e false
+     * caso não consiga.
      * @throws java.io.IOException
      */
     public boolean generateDirectorySortReverseLastModified(String directory, List<Arquivo> listFiles) throws IOException {
@@ -112,13 +124,16 @@ public class ListDirectory {
         }
         return false;
     }
-    
+
     /**
-     * O método generateDirectorySortReverseSize() produz o arquivo HTML que contém todos
-     * os conteúdos presentes naquele diretório, na ordem inversa em relação ao tamanho.
+     * O método generateDirectorySortReverseSize(String directory, List<Arquivo>
+     * listFiles) produz o arquivo HTML que contém todos os conteúdos presentes
+     * naquele diretório, na ordem inversa em relação ao tamanho.
+     *
      * @param directory String com o nome do diretório e o seu conteúdo.
      * @param listFiles Lista com os arquivos presentes naquele diretório.
-     * @return true ou false, booleano true caso consiga gerar um HTML e false caso não consiga.
+     * @return true ou false, booleano true caso consiga gerar um HTML e false
+     * caso não consiga.
      * @throws java.io.IOException
      */
     public boolean generateDirectorySortReverseSize(String directory, List<Arquivo> listFiles) throws IOException {
@@ -135,13 +150,16 @@ public class ListDirectory {
         }
         return false;
     }
-    
+
     /**
-     * O método generateDirectorySortName() produz o arquivo HTML que contém todos
-     * os conteúdos presentes naquele diretório, na ordem alfabética em relação aos nomes.
+     * O método generateDirectorySortName(String directory, List<Arquivo>
+     * listFiles) produz o arquivo HTML que contém todos os conteúdos presentes
+     * naquele diretório, na ordem alfabética em relação aos nomes.
+     *
      * @param directory String com o nome do diretório e o seu conteúdo.
      * @param listFiles Lista com os arquivos presentes naquele diretório.
-     * @return true ou false, booleano true caso consiga gerar um HTML e false caso não consiga.
+     * @return true ou false, booleano true caso consiga gerar um HTML e false
+     * caso não consiga.
      * @throws java.io.IOException
      */
     public boolean generateDirectorySortName(String directory, List<Arquivo> listFiles) throws IOException {
@@ -158,13 +176,17 @@ public class ListDirectory {
         }
         return false;
     }
-    
+
     /**
-     * O método generateDirectorySortLastModified() produz o arquivo HTML que contém todos
-     * os conteúdos presentes naquele diretório, na ordem em relação a última modificação.
+     * O método generateDirectorySortLastModified(String directory,
+     * List<Arquivo> listFiles) produz o arquivo HTML que contém todos os
+     * conteúdos presentes naquele diretório, na ordem em relação a última
+     * modificação.
+     *
      * @param directory String com o nome do diretório e o seu conteúdo.
      * @param listFiles Lista com os arquivos presentes naquele diretório.
-     * @return true ou false, booleano true caso consiga gerar um HTML e false caso não consiga.
+     * @return true ou false, booleano true caso consiga gerar um HTML e false
+     * caso não consiga.
      * @throws java.io.IOException
      */
     public boolean generateDirectorySortLastModified(String directory, List<Arquivo> listFiles) throws IOException {
@@ -181,13 +203,16 @@ public class ListDirectory {
         }
         return false;
     }
-    
+
     /**
-     * O método generateDirectorySortSize() produz o arquivo HTML que contém todos
-     * os conteúdos presentes naquele diretório, na ordem em relação ao tamanho.
+     * O método generateDirectorySortSize(String directory, List<Arquivo>
+     * listFiles) produz o arquivo HTML que contém todos os conteúdos presentes
+     * naquele diretório, na ordem em relação ao tamanho.
+     *
      * @param directory String com o nome do diretório e o seu conteúdo.
      * @param listFiles Lista com os arquivos presentes naquele diretório.
-     * @return true ou false, booleano true caso consiga gerar um HTML e false caso não consiga.
+     * @return true ou false, booleano true caso consiga gerar um HTML e false
+     * caso não consiga.
      * @throws java.io.IOException
      */
     public boolean generateDirectorySortSize(String directory, List<Arquivo> listFiles) throws IOException {
@@ -204,14 +229,15 @@ public class ListDirectory {
         }
         return false;
     }
-    
-    
+
     /**
-     * O método filesDirectory() armazena todos os arquivos e diretórios em uma lista
-     * com o nome, o tamanho e a última modificação.
-     * @param directory String com o nome do diretório que será carregado o seu conteúdo na lista.
-     * @return true ou false, booleano true caso consiga gerar um HTML que mostre o conteúdo dos
-     * diretórios e false caso não consiga.
+     * O método filesDirectory(String directory) armazena todos os arquivos e
+     * diretórios em uma lista com o nome, o tamanho e a última modificação.
+     *
+     * @param directory String com o nome do diretório que será carregado o seu
+     * conteúdo na lista.
+     * @return true ou false, booleano true caso consiga gerar um HTML que
+     * mostre o conteúdo dos diretórios e false caso não consiga.
      * @throws java.io.IOException
      */
     public boolean filesDirectory(String directory) throws IOException {
@@ -231,7 +257,7 @@ public class ListDirectory {
         }
 
         /* Verificamos se o arquivo com o conteúdo dos diretórios foi criado */
-        if(generateDirectoryHtml(directory, listFiles)){
+        if (generateDirectoryHtml(directory, listFiles)) {
             generateDirectorySortName(directory, listFiles);
             generateDirectorySortReverseName(directory, listFiles);
             generateDirectorySortLastModified(directory, listFiles);

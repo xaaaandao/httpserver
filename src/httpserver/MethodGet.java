@@ -22,14 +22,14 @@ public class MethodGet {
     Socket s;
 
     /**
-     * O método MethodGet() é apenas um construtor.
+     * O MethodGet() é apenas um construtor.
      */
     public MethodGet() {
 
     }
 
     /**
-     * O método MethodGet() é apenas um construtor.
+     * O MethodGet() é apenas um construtor.
      *
      * @param s socket da conexão aceita pelo servidor.
      */
@@ -38,8 +38,9 @@ public class MethodGet {
     }
 
     /**
-     * O método getContentType() recebe a extensão do arquivo e verifica qual
-     * tipo de valor deve ser colocado no campo Content-Type no cabeçalho.
+     * O método getContentType(String extension) recebe a extensão do arquivo e
+     * verifica qual tipo de valor deve ser colocado no campo Content-Type no
+     * cabeçalho.
      *
      * @param extension String com a extensão que vai ser verificado qual valor
      * será colocado no Content-Type.
@@ -263,8 +264,9 @@ public class MethodGet {
     }
 
     /**
-     * O método headerLastModified() recebe o arquivo que irá sendo retornado
-     * pelo cliente e verificamos quando ele é modificado pela última vez.
+     * O método headerLastModified(File f) recebe o arquivo que irá sendo
+     * retornado pelo cliente e verificamos quando ele é modificado pela última
+     * vez.
      *
      * @param f Arquivo com conteúdo HTML onde extraímos a sua última
      * modificação.
@@ -276,6 +278,16 @@ public class MethodGet {
         return sdf.format(new Date(f.lastModified()));
     }
 
+    /**
+     * O método checkCookie(BufferedReader buffer) verifica se no cabeçalho da
+     * requisição veio o campo Cookie e o valor dele, caso não venha nada
+     * retorna sendo um, caso contrário retorna incrementado.
+     *
+     * @param buffer recebe um buffer com o que conteúdo que foi vindo da
+     * requisição do cliente, para verificar a presença do campo cookie.
+     * @return uma string com o valor do cookie, dependendo do que veio na
+     * requisição.
+     */
     public String checkCookie(BufferedReader buffer) throws IOException {
         if (buffer == null) {
             return "acessos=1";
@@ -306,16 +318,18 @@ public class MethodGet {
     }
 
     /**
-     * O método responseHeader() recebe o arquivo que irá ser retornado para o
-     * cliente e o nome do arquivo, o arquivo verificamos quando ele é
-     * modificado pela última vez e o tamanho dele e o segundo parâmetro que é o
-     * nome do arquivo utilizamos para pegar a sua extensão, com todas essas
-     * informações montamos o cabeçalho.
+     * O método responseHeader(File f, String nameFile, BufferedReader buffer)
+     * recebe o arquivo que irá ser retornado para o cliente e o nome do
+     * arquivo, o arquivo verificamos quando ele é modificado pela última vez e
+     * o tamanho dele e o segundo parâmetro que é o nome do arquivo utilizamos
+     * para pegar a sua extensão, com todas essas informações montamos o
+     * cabeçalho.
      *
      * @param f Arquivo com conteúdo HTML onde extraímos o tamanho e sua última
      * modificação.
      * @param nameFile String com o nome do arquivo onde será extraído sua
      * extensão.
+     * @param buffer buffer com o conteúdo da requisição do cliente.
      * @throws java.io.IOException
      * @return header String com o cabeçalho montado.
      */
@@ -334,10 +348,10 @@ public class MethodGet {
     }
 
     /**
-     * O método responseBody() recebe em String o conteúdo do cabeçalho e o
-     * arquivo que será anexado a esse cabeçalho, basicamente lê o arquivo e
-     * acrescentar no final da String que veio, após isso envia para o cliente
-     * que o solicitou.
+     * O método responseBody(String content, File f) recebe em String o conteúdo
+     * do cabeçalho e o arquivo que será anexado a esse cabeçalho, basicamente
+     * lê o arquivo e acrescentar no final da String que veio, após isso envia
+     * para o cliente que o solicitou.
      *
      * @param content String com o texto do cabeçalho que irá ser feito a
      * resposta ao cliente.
@@ -368,10 +382,10 @@ public class MethodGet {
     }
 
     /**
-     * O método isPathInvisible() verifica se o path que foi solicitado na
-     * requisição ele deve ser retornado ou não ao cliente, exemplo não queremos
-     * que o nosso usuário tenha acesso as páginas de erro, ou as páginas que
-     * foram geradas para exibir os diretórios.
+     * O método isPathInvisible(String path) verifica se o path que foi
+     * solicitado na requisição ele deve ser retornado ou não ao cliente,
+     * exemplo não queremos que o nosso usuário tenha acesso as páginas de erro,
+     * ou as páginas que foram geradas para exibir os diretórios.
      *
      * @param path String com o path se ele pode ou não ser retornado ao
      * cliente.
@@ -396,10 +410,11 @@ public class MethodGet {
     }
 
     /**
-     * O método isVirtualPath() verifica se o path que foi requisitado pelo
-     * cliente é um virtual path ou não, para tal façanha verifica um arquivo de
-     * configuração presente no diretório /html caso no conteúdo dele contenha
-     * esse virtual path retorna true ou false caso não exista.
+     * O método isVirtualPath(String path) verifica se o path que foi
+     * requisitado pelo cliente é um virtual path ou não, para tal façanha
+     * verifica um arquivo de configuração presente no diretório /html caso no
+     * conteúdo dele contenha esse virtual path retorna true ou false caso não
+     * exista.
      *
      * @param path String com o virtual path vindo da requisição do cliente.
      * @throws java.io.IOException
@@ -431,11 +446,11 @@ public class MethodGet {
     }
 
     /**
-     * O método isDirOrIsFile() verifica se o path que foi requisitado pelo
-     * cliente é um virtual path ou um diretório ou uma página HTML, além do que
-     * verifica a veracidade, ou seja, se o mesmo existe, caso não exista
-     * retorna a página com o erro 404, senão retorno a página ou o recurso
-     * solicitado.
+     * O método isDirOrIsFile(String path, BufferedReader buffer) verifica se o
+     * path que foi requisitado pelo cliente é um virtual path ou um diretório
+     * ou uma página HTML, além do que verifica a veracidade, ou seja, se o
+     * mesmo existe, caso não exista retorna a página com o erro 404, senão
+     * retorno a página ou o recurso solicitado.
      *
      * @param path String com a página, virtual path ou diretório vinda da
      * requisição do cliente.
@@ -507,6 +522,15 @@ public class MethodGet {
         return newPath;
     }
 
+    /**
+     * O método returnQuery(String query) verifica qual página deve ser
+     * retornada a partir de uma pesquisa.
+     *
+     * @param query String verifica qual a página deve ser retornada a partir da
+     * pesquisa.
+     * @return String com a página que deve ser retornada a partir do valor da
+     * query.
+     */
     public String returnQuery(String query) {
         if (query == null) {
             return "/directory.html";
@@ -530,6 +554,13 @@ public class MethodGet {
         return null;
     }
 
+    /**
+     * O método checkClient(String ip) verifica se tal ip está presente ainda na
+     * rede.
+     *
+     * @param ip String com o valor de ip que irá ser verificado.
+     * @return true ou false, true caso esteja presente e false caso contrário.
+     */
     public boolean checkClient(String ip) {
 
         try {
@@ -541,8 +572,8 @@ public class MethodGet {
             String s = "";
             // reading output stream of the command
             while ((s = inputStream.readLine()) != null) {
-                if(s.contains("from " + ip)){
-                    if(s.contains("Destination Host Unreachable")){
+                if (s.contains("from " + ip)) {
+                    if (s.contains("Destination Host Unreachable")) {
                         return false;
                     }
                     return true;
@@ -556,6 +587,16 @@ public class MethodGet {
         return false;
     }
 
+    /**
+     * O método checkOtherServer(List<Friends> listOfFriends, String path)
+     * verifica se existe o recurso em outros servidores, caso no servidor local
+     * próprio retorne o erro 404.
+     *
+     * @param listOfFriends é uma lista de servidores amigos, na qual deve ser
+     * procurado o recurso.
+     * @param path é uma String com o recurso que deve ser procurado.
+     * @return true ou false, true caso esteja presente e false caso contrário.
+     */
     public boolean checkOtherServer(List<Friends> listOfFriends, String path) throws UnsupportedEncodingException, IOException {
         /* Gera a lista aleatória */
         long seed = System.nanoTime();
@@ -603,6 +644,15 @@ public class MethodGet {
         return false;
     }
 
+    /**
+     * O método getStringFromInputStream(InputStream is) é o valor que foi
+     * recebido pelo outro servidor e é transformado em String.
+     *
+     * @param is é o conteúdo que foi recebido pelo outro servidor sendo
+     * transformado em String.
+     * @return text, com o valor que foi recebido sendo transformado.
+     * @throws java.io.IOException
+     */
     public String getStringFromInputStream(InputStream is) throws IOException {
         String text = null;
         try (Scanner scanner = new Scanner(is, StandardCharsets.UTF_8.name())) {
@@ -614,8 +664,9 @@ public class MethodGet {
     }
 
     /**
-     * O método processGet() verifica se o path que foi requisitado pelo cliente
-     * é um virtual path ou é um diretório, caso seja verifica se o buffer da
+     * O método processGet(String path, BufferedReader buffer, List<Friends>
+     * listOfFriends) verifica se o path que foi requisitado pelo cliente é um
+     * virtual path ou é um diretório, caso seja verifica se o buffer da
      * requisição do cliente possui ou não a autenticação, caso não seja nenhum
      * desses dois casos retorna a página solicitada.
      *
@@ -623,8 +674,11 @@ public class MethodGet {
      * requisição do cliente.
      * @param buffer BufferedReader com o método, o path e outros itens do
      * cabeçalho vindos da requisição do cliente.
+     * @param listOfFriends lista de servidores amigos onde deve ser procurado o
+     * recurso caso não ache localmente.
      * @throws java.io.IOException
      * @throws java.lang.InterruptedException
+     * @return retorna void, ou seja, nada.
      */
     public void processGet(String path, BufferedReader buffer, List<Friends> listOfFriends) throws IOException, InterruptedException {
         //new Friends().printList(listOfFriends);
@@ -658,7 +712,7 @@ public class MethodGet {
                     responseBody(text, fileHtml);
                 }
             } else {
-                System.out.println("np"+newPath);
+                System.out.println("np" + newPath);
                 File fileHtml = new File(newPath);
                 String text = responseHeader(fileHtml, newPath, buffer);
                 responseBody(text, fileHtml);

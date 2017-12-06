@@ -18,10 +18,12 @@ public class FileHtml {
     static long start;
 
     /**
-     * O método headerDirectoryHtml() abre as TAG que foram abertas para que
-     * pudessemos listar o conteúdo do diretório solicitado pelo cliente.
+     * O método headerDirectoryHtml(String directory, String sortFiles) abre as
+     * TAG que foram abertas para que pudessemos listar o conteúdo do diretório
+     * solicitado pelo cliente.
      *
      * @param directory String com o nome do diretório solicitado pelo cliente.
+     * @param sortFiles String que será ordenado os elementos dos arquivos.
      * @return String com o conteúdo do arquivo HTML, abrindo as TAG que
      * conterão os diretórios listados.
      */
@@ -85,9 +87,9 @@ public class FileHtml {
     }
 
     /**
-     * O método filesHtml() é invocado quando o usuário solicita um diretório,
-     * então esse método gera um parte do HTML que exibe os arquivos presente
-     * naquele diretório.
+     * O método filesHtml(String directory, List<Arquivo> listFiles) é invocado
+     * quando o usuário solicita um diretório, então esse método gera um parte
+     * do HTML que exibe os arquivos presente naquele diretório.
      *
      * @param directory String com o nome do diretório solicitado pelo cliente.
      * @param listFiles Lista com o nome de todos os arquivos presente naquele
@@ -98,9 +100,9 @@ public class FileHtml {
     public String filesHtml(String directory, List<Arquivo> listFiles) {
         String content = new String();
         /* For each: você quer iterar, mas sem uma ordem específica */
- /* For: quando você sabe o tamanho */
- /* While: quando você não sabe o tamanho */
- /* Se o diretório for barra não tem diretório pai caso contrário irá aparecer na página */
+        /* For: quando você sabe o tamanho */
+        /* While: quando você não sabe o tamanho */
+        /* Se o diretório for barra não tem diretório pai caso contrário irá aparecer na página */
         if (!directory.equalsIgnoreCase("/html")) {
             String parentDirectory = new ListDirectory().getParentDirectory(directory);
             content = "<tr>\n" + "<td> <a href='" + parentDirectory + "'\"> parent directory </a> </td>";
@@ -129,6 +131,8 @@ public class FileHtml {
      * lista que contém todos os arquivos requisitados pelos clientes e também
      * inicializa o tempo que é útil para calcular os minutos e segundos que o
      * servidor que está sendo executado.
+     *
+     * @param void, ou seja, não retorna nada.
      */
     public void getTimeAndDate() {
         /* start útil para pegar os minutos e segundos que o servidor está executando */
@@ -153,6 +157,15 @@ public class FileHtml {
         return String.format("%d minutos %d segundos", TimeUnit.MILLISECONDS.toMinutes(time), TimeUnit.MILLISECONDS.toSeconds(time) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time)));
     }
 
+    /**
+     * O método generateInfoAdmin() gera um arquivo HTML que contém as seguintes
+     * informações a hora e data que ele está ligado, a quantidade minutos e
+     * segundos em que ele está ligado, as últimas requisições solicitadas pelo
+     * cliente, quando for solicitado um diretório mostra também o diretório que
+     * foi solicitado.
+     *
+     * @param void, ou seja, não retorna nada.
+     */
     public void generateInfoAdmin() {
         String content = "<p> O servidor está no ar desde: " + startDateHour + " (" + executionTime() + " ligado).</p>\n"
                 + "<p> Número de requisições atendidas: " + Integer.toString(filesRequired.size()) + "</p>"
@@ -181,11 +194,8 @@ public class FileHtml {
     }
 
     /**
-     * O método generateadminHtml() gera um arquivo HTML que contém as seguintes
-     * informações a hora e data que ele está ligado, a quantidade minutos e
-     * segundos em que ele está ligado, as últimas requisições solicitadas pelo
-     * cliente, quando for solicitado um diretório mostra também o diretório que
-     * foi solicitado.
+     * O método generateadminHtml() gera o arquivo HTML, que irá conter as informações
+     * de outro arquivo, e mais o slider feito em angular JS.
      *
      * @return content String com o conteúdo presente no arquivo HTML.
      */
@@ -537,10 +547,11 @@ public class FileHtml {
     }
 
     /**
-     * O método generateVirtualHtml() gera um arquivo HTML que será retornado ao
+     * O método generateVirtualHtml(String path) gera um arquivo HTML que será retornado ao
      * cliente.
      *
      * @param path String com o nome do arquivo idêntico nome do virtual path.
+     * @return void, ou seja, nada.
      */
     public void generateVirtualHtml(String path) {
         try (BufferedWriter f = new BufferedWriter(new FileWriter(path))) {
@@ -553,7 +564,7 @@ public class FileHtml {
     }
 
     /**
-     * O método setFilesRequired() adiciona o nome da página, o nome do
+     * O método setFilesRequired(String file, String nameDirectory, BufferedReader buffer) adiciona o nome da página, o nome do
      * diretório caso seja um diretório e o buffer que foi enviado pelo cliente,
      * todos esses campos são adicionados na lista que contém todos os arquivos
      * que foram solicitados.
@@ -562,6 +573,7 @@ public class FileHtml {
      * @param nameDirectory String com o nome o diretório caso a página que
      * tenha sido solicitada foi um diretório.
      * @param buffer BufferedReader com o buffer que foi enviado pelo cliente.
+     * @return void, ou seja, nada.
      */
     public void setFilesRequired(String file, String nameDirectory, BufferedReader buffer) {
         /* Instanciando uma classe */
@@ -608,7 +620,7 @@ public class FileHtml {
     }
 
     /**
-     * O método sortNameFile() ordena a lista dos arquivos do diretório baseado
+     * O método sortNameFile(List<Arquivo> listFiles) ordena a lista dos arquivos do diretório baseado
      * no nomes dos arquivos.
      *
      * @param listFiles Lista com o nome de todos os arquivos presente naquele
@@ -624,7 +636,7 @@ public class FileHtml {
     }
 
     /**
-     * O método sortLastModifiedFile() ordena a lista dos arquivos do diretório
+     * O método sortLastModifiedFile(List<Arquivo> listFiles) ordena a lista dos arquivos do diretório
      * baseado na última modificação.
      *
      * @param listFiles Lista com o nome de todos os arquivos presente naquele
@@ -641,7 +653,7 @@ public class FileHtml {
     }
 
     /**
-     * O método sortSizeFile() ordena a lista dos arquivos do diretório baseado
+     * O método sortSizeFile(List<Arquivo> listFiles) ordena a lista dos arquivos do diretório baseado
      * no tamanho do arquivo.
      *
      * @param listFiles Lista com o nome de todos os arquivos presente naquele
@@ -657,7 +669,7 @@ public class FileHtml {
     }
 
     /**
-     * O método sortNameFile() ordena de maneira inversa a lista dos arquivos do
+     * O método sortNameFile(List<Arquivo> listFiles) ordena de maneira inversa a lista dos arquivos do
      * diretório baseado nomes dos arquivos.
      *
      * @param listFiles Lista com o nome de todos os arquivos presente naquele
@@ -673,7 +685,7 @@ public class FileHtml {
     }
 
     /**
-     * O método sortReverseLastModifiedFile() ordena de maneira inversa a lista
+     * O método sortReverseLastModifiedFile(List<Arquivo> listFiles) ordena de maneira inversa a lista
      * dos arquivos do diretório baseado na última modificação.
      *
      * @param listFiles Lista com o nome de todos os arquivos presente naquele
@@ -689,7 +701,7 @@ public class FileHtml {
     }
 
     /**
-     * O método sortReverseSizeFile() ordena de maneira inversa a lista dos
+     * O método sortReverseSizeFile(List<Arquivo> listFiles) ordena de maneira inversa a lista dos
      * arquivos do diretório baseado no tamanho do arquivo.
      *
      * @param listFiles Lista com o nome de todos os arquivos presente naquele
@@ -705,12 +717,14 @@ public class FileHtml {
     }
 
     /**
-     * O método getDirectory() percorre o path do arquivo, abre o arquivo e
+     * O método getDirectory(String path) percorre o path do arquivo, abre o arquivo e
      * retorna o diretório que está sendo exibido nesse arquivo.
      *
      * @param path String com o nome do arquivo onde será extraído o diretório.
      * @return directory[3] retorna o diretório que está sendo mostrado no
      * arquivo.
+     * @throws java.io.FileNotFoundException
+     * @throws java.IOException
      */
     public String getDirectory(String path) throws FileNotFoundException, IOException {
         File file = new File(path);

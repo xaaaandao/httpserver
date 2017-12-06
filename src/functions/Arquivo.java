@@ -14,7 +14,7 @@ public class Arquivo {
     private String size;
 
     /**
-     * O método InfoRequest() é apenas um construtor.
+     * O Arquivo() é apenas um construtor.
      */
     public Arquivo() {
     }
@@ -28,7 +28,7 @@ public class Arquivo {
     }
 
     /**
-     * O método getPage() apenas atribui o nome de um arquivo.
+     * O método getPage(String name) apenas atribui o nome de um arquivo.
      * @param name String com o nome do arquivo.
      */
     public void setName(String name) {
@@ -44,7 +44,7 @@ public class Arquivo {
     }
 
     /**
-     * O método setLastModified() apenas atribui a última modificação que ocorreu.
+     * O método setLastModified(String lastModified) apenas atribui a última modificação que ocorreu.
      * @param lastModified String com a última modificação que ocorreu do arquivo.
      */
     public void setLastModified(String lastModified) {
@@ -60,7 +60,7 @@ public class Arquivo {
     }
 
     /**
-     * O método setSize() apenas atribui o tamanho do arquivo.
+     * O método setSize(String size) apenas atribui o tamanho do arquivo.
      * @param size String com o tamanho do arquivo.
      */
     public void setSize(String size) {

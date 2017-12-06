@@ -9,14 +9,32 @@ public class BroadcastReceive implements Runnable {
 
     List<Friends> listOfFriends;
     int portHttp;
-    
-    public BroadcastReceive(List<Friends> friends, int port){
+
+    /**
+     * O BroadcastReceive(List<Friends> friends, int port) é apenas um construtor.
+     *
+     * @param friends lista de servidores amigos onde procure o recurso caso não
+     * encontre localmente.
+     * @param port que á uma porta do servidor HTTP.
+     */
+    public BroadcastReceive(List<Friends> friends, int port) {
         listOfFriends = friends;
         portHttp = port;
     }
-    
+
+    /**
+     * O responseServer(InetAddress address, int port, int portFriend) envia
+     * uma mensagem por unicasting.
+     *
+     * @param address, endereço de quem deve ser enviado a mensagem por unicast.
+     * @param port, Inteiro com a minha porta HTTP.
+     * @param portFriend, Inteiro com a minha porta HTTP do meu "amigo".
+     * @return void, ou seja, retorna nada.
+     * @throws java.net.SocketException
+     * @throws java.IOException
+     */
     public void responseServer(InetAddress address, int port, int portFriend) throws IOException {
-        System.out.println("Endereço para quem to enviando: "+ address.toString());
+        System.out.println("Endereço para quem to enviando: " + address.toString());
         String message = "AD" + Integer.toString(portHttp);
         byte[] confirmMessage = message.getBytes();
         DatagramSocket confirm = new DatagramSocket();
@@ -26,7 +44,7 @@ public class BroadcastReceive implements Runnable {
         confirm.close();
         Friends f = new Friends(address.toString(), portFriend);
         new Friends().addFriend(listOfFriends, f);
-        if(listOfFriends.size() == 0){
+        if (listOfFriends.size() == 0) {
             System.out.println("lista vazia!");
         }
         new Friends().printList(listOfFriends);
@@ -35,6 +53,13 @@ public class BroadcastReceive implements Runnable {
         System.out.println("Respondi por unicast com a seguinte mensagem:" + message);
     }
 
+    /**
+     * O receiveMessage() recebe uma mensagem por broadcast.
+     *
+     * @return void, ou seja, retorna nada.
+     * @throws java.net.SocketException
+     * @throws java.IOException
+     */
     public void receiveMessage() throws SocketException, IOException {
         int port = 6666;
         DatagramSocket socket = new DatagramSocket(port);
@@ -56,6 +81,11 @@ public class BroadcastReceive implements Runnable {
         }
     }
 
+    /**
+     * O run() que é uma thread que fica ouvindo as mensagens vindas de broadcast.
+     *
+     * @return retorna void, ou seja, nada.
+     */
     @Override
     public void run() {
         try {
