@@ -342,7 +342,8 @@ public class MethodGet {
                 + "Date: " + headerDate() + "\r\n"
                 + "Last-Modified: " + headerLastModified(f) + "\r\n"
                 + "Content-Length: " + f.length() + "\r\n"
-                + "Set-Cookie: " + checkCookie(buffer) + "\r\n"
+                + "Set-Cookie: acessos=1 \r\n"
+                //+ "Set-Cookie: " + checkCookie(buffer) + "\r\n"
                 + "Content-Type: " + getContentType(extension) + "\r\n\r\n";
         return header;
     }
@@ -578,7 +579,7 @@ public class MethodGet {
                     }
                     return true;
                 }
-                System.out.println(s);
+                //System.out.println(s);
             }
 
         } catch (Exception e) {
@@ -616,28 +617,11 @@ public class MethodGet {
             byte[] bytesText = request.getBytes("ISO-8859-1");
             out.write(bytesText);
             
-            System.out.println("to aqui porra");
-            int nRead = in.read();
-            System.out.println("aki caralho");
-            byte[] data = new byte[16384];
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-            while ((nRead = in.read(data, 0, data.length)) != -1) {
-                buffer.write(data, 0, nRead);
-            }
-            buffer.flush();
-            String msg = data.toString();
-            System.out.println(msg);
-            //OutputStream la = s.getOutputStream();
-            //la.write(data);
-            //out.
-            //int value = in.read();
 
-            //System.out.println("value:" + value);
-            //System.out.println("nada" + getStringFromInputStream(in));
-            /*String text = getStringFromInputStream(in);
-            System.out.println("text:" + text);
+            int value = in.read();
+            String text = getStringFromInputStream(in);
             String result = "H" + text;
-            System.out.println("final" + result);*/
+                        
             //Se a requisição vim algo null
             if (!checkClient(ip)) {
                 //soc,ket.close();
@@ -652,9 +636,9 @@ public class MethodGet {
                 }
                 //Se vier algo manda para o cliente
             }
-            if (!msg.contains("404")) {
+            if (!result.contains("404")) {
                 OutputStream outA = s.getOutputStream();
-                outA.write(data);
+                outA.write(result.getBytes());
                 return true;
             }
 
@@ -676,8 +660,6 @@ public class MethodGet {
         try (Scanner scanner = new Scanner(is, StandardCharsets.UTF_8.name())) {
             text = scanner.useDelimiter("\\A").next();
         }
-
-        //assertThat(text, equalTo(originalString));
         return text;
     }
 
