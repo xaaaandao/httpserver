@@ -1,3 +1,4 @@
+
 package httpserver;
 
 import java.io.*;
@@ -178,9 +179,9 @@ public class ProcessRequest implements Runnable {
             prepareToRun(input);
             
             /* Encerra as conexões */
-            input.close();
-            output.close();
-            s.close();            
+            //input.close();
+            //output.close();
+            //s.close();            
         } catch (InterruptedException ex) {
             Logger.getLogger(ProcessRequest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

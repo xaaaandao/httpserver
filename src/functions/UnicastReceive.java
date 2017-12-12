@@ -43,6 +43,7 @@ public class UnicastReceive implements Runnable {
             if (text.contains("AD")) {
                 System.out.println("Recebi a confirmação por unicast " + text);
                 text = text.replace("AD", "");
+                text = text.replace("\n", "");
                 Friends f = new Friends(packet.getAddress().toString(), Integer.parseInt(text));
                 new Friends().addFriend(listOfFriends, f);
                 new Friends().printList(listOfFriends);
