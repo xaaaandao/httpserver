@@ -618,18 +618,20 @@ public class MethodGet {
             System.out.println("ip pai:" + f.getIpAddress());
 
             String ip = f.getIpAddress().replace("/", "");
-            /* Socket de */
             try {
+                /* Socket da pessoa presente na lista */
                 Socket socket = new Socket(ip, f.getPortHttp());
                 OutputStream out = socket.getOutputStream();
                 InputStream in = socket.getInputStream();
 
+                /* Monta o cabeçalho com a requisição e envia ao seu amigo */
                 String requestFriend = "GET " + path + " HTTP/1.1\r\nFrom Server: True";
                 requestFriend = requestFriend + "\r\n\r\n";
                 byte[] bytesText = requestFriend.getBytes("ISO-8859-1");
                 out.write(requestFriend.getBytes());
                 System.out.println("mando requisição");
 
+                /* Timeout se em 10 segundos */
                 ExecutorService executor = Executors.newSingleThreadExecutor();
                 Future<String> future = executor.submit(new Callable() {
 
@@ -638,11 +640,9 @@ public class MethodGet {
                         byte[] data = new byte[2048];
                         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
                         String text = "";
-                        //System.out.println("antes do while");
+                        /* Fica lendo o conteúdo recebido */
                         while ((nRead = in.read()) != -1) {
-                            //System.out.println("entro no while carai");
                             buffer.write(data, 0, nRead);
-                            //System.out.println("d-" + nRead);
                             char c = (char) nRead;
                             text = text + c;
                         }
@@ -651,31 +651,37 @@ public class MethodGet {
                 });
                 String responseText = "";
                 try {
-                    responseText = future.get(10, TimeUnit.SECONDS); //timeout is in 2 seconds
-                    if(responseText.equalsIgnoreCase("") || responseText.equalsIgnoreCase("404")){
-                        System.out.println("não achou nada :\\");
-                        break;
-                    }
+                    /* Fica esperando por dez segundos */
+                    responseText = future.get(10, TimeUnit.SECONDS);
                 } catch (TimeoutException e) {
-                    System.err.println("Timeout");
+                    /* Se nesses 10 segundos não achou nada remove o querido amigo */
+                    System.out.println("o tempo acabou");
+                    if(!responseText.isEmpty())
+                        listOfFriends.remove(new Friends().getFriend(listOfFriends, f));
                 }
                 executor.shutdownNow();
-                
-                OutputStream send = s.getOutputStream();
-                byte[] response = responseText.getBytes("ISO-8859-1");
-                send.write(responseText.getBytes());
-                System.out.println("já mandei!");
-                return true;
 
+                /* Se não for 404 */
+                //System.out.println(responseText.equalsIgnoreCase(""));
+                if (!responseText.contains("404") && !responseText.equalsIgnoreCase("")) {
+                    OutputStream send = s.getOutputStream();
+                    byte[] response = responseText.getBytes("ISO-8859-1");
+                    send.write(responseText.getBytes());
+                    System.out.println("já mandei!");
+                    return true;
+                /* Caso não venha nada ou venha algo com 404, vai para o próximo */                    
+                } else {
+                    System.out.println("não achou nada :\\");
+                    if(listOfFriends.size() == 1)
+                        return false;
+                }
 
             } catch (ConnectException c) {
-                System.out.println("removeu o querido amigo" + ip);
+                /* Se cair na conexão remove ele da lista*/
+                System.out.println("removeu o querido amigo " + ip);
                 listOfFriends.remove(new Friends().getFriend(listOfFriends, f));
             }
-            /* out.close();
-            in.close();
-            socket.close();
-             */
+
         }
         return false;
     }
