@@ -3,10 +3,18 @@ package httpserver;
 import functions.*;
 import java.io.*;
 import java.net.*;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.*;
 import java.time.*;
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Descrição: responsável pelo método GET,verifica se o path que o usuário
@@ -598,50 +606,76 @@ public class MethodGet {
      * @param path é uma String com o recurso que deve ser procurado.
      * @return true ou false, true caso esteja presente e false caso contrário.
      */
-    public boolean checkOtherServer(List<Friends> listOfFriends, String path) throws UnsupportedEncodingException, IOException {
-        if(listOfFriends.isEmpty()){
+    public boolean checkOtherServer(List<Friends> listOfFriends, String path) throws UnsupportedEncodingException, IOException, InterruptedException, ExecutionException {
+        if (listOfFriends.isEmpty()) {
             return false;
         }
         /* Gera a lista aleatória */
         long seed = System.nanoTime();
         Collections.shuffle(listOfFriends, new Random(seed));
         for (Friends f : listOfFriends) {
-            System.out.println("aki caralho");
+            System.out.println("vendo na lista....");
+            System.out.println("ip pai:" + f.getIpAddress());
+
             String ip = f.getIpAddress().replace("/", "");
-            Socket socket = new Socket(ip, f.getPortHttp());
-            OutputStream out = socket.getOutputStream();
-            InputStream in = socket.getInputStream();
-            String request = "GET " + path + " HTTP/1.1\r\n"
-                    + "From Server: True";
-            request = request + "\r\n\r\n";
-            byte[] bytesText = request.getBytes("ISO-8859-1");
-            out.write(bytesText);
-            
+            /* Socket de */
+            try {
+                Socket socket = new Socket(ip, f.getPortHttp());
+                OutputStream out = socket.getOutputStream();
+                InputStream in = socket.getInputStream();
 
-            int value = in.read();
-            String text = getStringFromInputStream(in);
-            String result = "H" + text;
-                        
-            //Se a requisição vim algo null
-            if (!checkClient(ip)) {
-                //soc,ket.close();
-                Friends fr = new Friends();
-                int index = fr.getFriend(listOfFriends, f);
-                if (index > -1) {
-                    listOfFriends.remove(index);
-                    System.out.println("removeu");
+                String requestFriend = "GET " + path + " HTTP/1.1\r\nFrom Server: True";
+                requestFriend = requestFriend + "\r\n\r\n";
+                byte[] bytesText = requestFriend.getBytes("ISO-8859-1");
+                out.write(requestFriend.getBytes());
+                System.out.println("mando requisição");
+
+                ExecutorService executor = Executors.newSingleThreadExecutor();
+                Future<String> future = executor.submit(new Callable() {
+
+                    public String call() throws Exception {
+                        int nRead;
+                        byte[] data = new byte[2048];
+                        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                        String text = "";
+                        //System.out.println("antes do while");
+                        while ((nRead = in.read()) != -1) {
+                            //System.out.println("entro no while carai");
+                            buffer.write(data, 0, nRead);
+                            //System.out.println("d-" + nRead);
+                            char c = (char) nRead;
+                            text = text + c;
+                        }
+                        return text;
+                    }
+                });
+                String responseText = "";
+                try {
+                    responseText = future.get(10, TimeUnit.SECONDS); //timeout is in 2 seconds
+                    if(responseText.equalsIgnoreCase("") || responseText.equalsIgnoreCase("404")){
+                        System.out.println("não achou nada :\\");
+                        break;
+                    }
+                } catch (TimeoutException e) {
+                    System.err.println("Timeout");
                 }
-                if (listOfFriends.isEmpty()) {
-                    return false;
-                }
-                //Se vier algo manda para o cliente
-            }
-            if (!result.contains("404")) {
-                OutputStream outA = s.getOutputStream();
-                outA.write(result.getBytes());
+                executor.shutdownNow();
+                
+                OutputStream send = s.getOutputStream();
+                byte[] response = responseText.getBytes("ISO-8859-1");
+                send.write(responseText.getBytes());
+                System.out.println("já mandei!");
                 return true;
-            }
 
+
+            } catch (ConnectException c) {
+                System.out.println("removeu o querido amigo" + ip);
+                listOfFriends.remove(new Friends().getFriend(listOfFriends, f));
+            }
+            /* out.close();
+            in.close();
+            socket.close();
+             */
         }
         return false;
     }
@@ -680,7 +714,7 @@ public class MethodGet {
      * @throws java.lang.InterruptedException
      * @return retorna void, ou seja, nada.
      */
-    public void processGet(String path, BufferedReader buffer, List<Friends> listOfFriends) throws IOException, InterruptedException {
+    public void processGet(String path, BufferedReader buffer, List<Friends> listOfFriends) throws IOException, InterruptedException, UnsupportedEncodingException, ExecutionException {
         //new Friends().printList(listOfFriends);
 
         isDirectory = false;
@@ -712,7 +746,7 @@ public class MethodGet {
                     responseBody(text, fileHtml);
                 }
             } else {
-                System.out.println("np" + newPath);
+                //System.out.println("np" + newPath);
                 File fileHtml = new File(newPath);
                 String text = responseHeader(fileHtml, newPath, buffer);
                 responseBody(text, fileHtml);

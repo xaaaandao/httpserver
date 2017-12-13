@@ -5,6 +5,7 @@ import java.io.*;
 import java.net.*;
 import functions.*;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.*;
 
 
@@ -46,7 +47,7 @@ public class ProcessRequest implements Runnable {
      * @throws java.lang.InterruptedException
      * @return retorna void, ou seja, nada.
      */
-    public void methodHTTP(String headerHttpMethod, String path, BufferedReader buffer) throws IOException, InterruptedException {
+    public void methodHTTP(String headerHttpMethod, String path, BufferedReader buffer) throws IOException, InterruptedException, UnsupportedEncodingException, ExecutionException {
     	switch(headerHttpMethod){
             case "OPTIONS":
         	break;
@@ -115,7 +116,7 @@ public class ProcessRequest implements Runnable {
      * @throws java.lang.InterruptedException
      * @return retorna void, ou seja, nada.
     */
-    public void prepareToRun(InputStream input) throws IOException, InterruptedException {
+    public void prepareToRun(InputStream input) throws IOException, InterruptedException, UnsupportedEncodingException, ExecutionException {
         /* Armazena o cabeçalho em uma String */
         BufferedReader buffer = new BufferedReader(new InputStreamReader(input));
         String request = buffer.readLine();
@@ -179,12 +180,14 @@ public class ProcessRequest implements Runnable {
             prepareToRun(input);
             
             /* Encerra as conexões */
-            //input.close();
-            //output.close();
-            //s.close();            
+            input.close();
+            output.close();
+            s.close();            
         } catch (InterruptedException ex) {
             Logger.getLogger(ProcessRequest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
+            Logger.getLogger(ProcessRequest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ExecutionException ex) {
             Logger.getLogger(ProcessRequest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
